@@ -58,21 +58,21 @@ insert into Supermercado.produto values
 	(2759746969561, 'roma', 'fruta', 368661129, to_date('05 Jun 2000', 'DD Mon YYYY')),
 	(7590445683570, 'pera', 'fruta', 984879695, to_date('05 Jul 2000', 'DD Mon YYYY')),
 	(8245771909701, 'cenoras', 'tuberculos', 526412549, to_date('10 Dec 2000', 'DD Mon YYYY')),
-	(2688979678410, 'alfaces', 'verdura', 304155810, to_date('05 Jan 2005', 'DD Mon YYYY')),
+	(2688979678410, 'alfaces', 'verdura', 368661129, to_date('05 Jan 2005', 'DD Mon YYYY')),
 	(3728153207168, 'batata', 'tuberculos', 526412549, to_date('10 Dec 2003', 'DD Mon YYYY')),
-	(8516636134142, 'feijao', 'leguminosas', 477072004, to_date('15 Dec 2000', 'DD Mon YYYY')),
+	(8516636134142, 'feijao', 'leguminosas', 368661129, to_date('15 Dec 2000', 'DD Mon YYYY')),
 	(8687798373110, 'grao', 'leguminosas', 477072004, to_date('20 Dec 2004', 'DD Mon YYYY')),
 	(6382066059161, 'agriao', 'verdura', 304155810, to_date('12 Mar 2000', 'DD Mon YYYY')),
 	(2868529847211, 'couve', 'verdura', 304155810, to_date('7 Dec 2010', 'DD Mon YYYY')),
-	(6770541259004, 'pescada', 'peixe de rio', 623733396, to_date('06 Jun 2000', 'DD Mon YYYY')),
-	(7690239934178, 'dourada', 'peixe de mar', 994226524, to_date('05 Feb 2000', 'DD Mon YYYY')),
+	(6770541259004, 'pescada', 'peixe de rio', 368661129, to_date('06 Jun 2000', 'DD Mon YYYY')),
+	(7690239934178, 'dourada', 'peixe de mar', 368661129, to_date('05 Feb 2000', 'DD Mon YYYY')),
 	(5170074158474, 'atum', 'peixe de mar', 994226524, to_date('05 Jul 2009', 'DD Mon YYYY')),
 	(2812995729112, 'salmao', 'peixe de rio', 623733396, to_date('03 Nov 2000', 'DD Mon YYYY')),
 	(7288326239603, 'bacalhau', 'peixe de mar', 994226524, to_date('21 Dec 2000', 'DD Mon YYYY')),
-	(3406026523472, 'almondegas', 'carnes vermelhas', 453251781, to_date('09 Dec 2000', 'DD Mon YYYY')),
+	(3406026523472, 'almondegas', 'carnes vermelhas', 368661129, to_date('09 Dec 2000', 'DD Mon YYYY')),
 	(8040403710884, 'costeletas de porco', 'carnes vermelhas', 453251781, to_date('05 Jan 2003', 'DD Mon YYYY')),
 	(7465250659198, 'bifes de peru', 'carnes de aves', 294736135, to_date('05 Dec 2012', 'DD Mon YYYY')),
-	(5471671422710, 'frango', 'carnes de aves', 294736135, to_date('05 Dec 2007', 'DD Mon YYYY')),
+	(5471671422710, 'frango', 'carnes de aves', 368661129, to_date('05 Dec 2007', 'DD Mon YYYY')),
 	(9236111829403, 'hamburguer de vaca', 'carnes vermelhas', 453251781, to_date('16 Dec 2000', 'DD Mon YYYY'));
 
 insert into Supermercado.fornece_sec values
@@ -155,3 +155,32 @@ insert into Supermercado.planograma values
 	(7465250659198, 6, 'dir', 'superior', 10, 30, 6),
 	(5471671422710, 7, 'esq', 'superior', 10, 30, 6),
 	(9236111829403, 8, 'dir', 'medio', 10, 30, 6);
+
+insert into Supermercado.evento_reposicao values
+	('José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Rodolfo', to_timestamp('2012-11-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Rodolfo', to_timestamp('2012-12-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Maria', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Maria', to_timestamp('2011-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Genoveva', to_timestamp('2008-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Genoveva', to_timestamp('2007-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
+	('Genoveva', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'));
+
+		
+insert into Supermercado.reposicao values
+	(9806327911116, 1, 'esq', 'chao', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(8871847294232, 2, 'esq', 'chao', 'Maria', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(5766270093745, 2, 'dir', 'chao', 'Maria', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(2759746969561, 3, 'dir', 'medio', 'Maria', to_timestamp('2011-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(8245771909701, 4, 'dir', 'medio', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(2688979678410, 5, 'esq', 'superior', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(3728153207168, 5, 'dir', 'superior', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(8687798373110, 6, 'dir', 'superior', 'Rodolfo', to_timestamp('2012-12-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(6382066059161, 7, 'esq', 'superior', 'Rodolfo', to_timestamp('2012-12-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(6770541259004, 8, 'esq', 'medio', 'Rodolfo', to_timestamp('2012-11-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(7690239934178, 8, 'dir', 'medio', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(2812995729112, 2, 'dir', 'chao', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(7288326239603, 3, 'esq', 'medio', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(8040403710884, 5, 'esq', 'superior', 'Genoveva', to_timestamp('2007-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(7465250659198, 6, 'dir', 'superior', 'Genoveva', to_timestamp('2008-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(5471671422710, 7, 'esq', 'superior', 'Genoveva', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3);
