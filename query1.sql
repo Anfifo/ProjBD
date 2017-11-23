@@ -9,7 +9,7 @@
 ), total_fornecedores AS (
 	SELECT nif, categoria
 	FROM primarios
-	union
+	UNION
 	SELECT nif, categoria
 	FROM secundarios
 )
