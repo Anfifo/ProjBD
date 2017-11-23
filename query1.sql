@@ -1,6 +1,7 @@
 ﻿WITH secundarios AS (
 	SELECT nif, categoria
 	FROM fornece_sec NATURAL JOIN produto
+	GROUP BY nif, categoria
 ), primarios AS (
 	SELECT forn_primario AS nif, categoria FROM produto
 	EXCEPT
