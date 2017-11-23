@@ -1,5 +1,5 @@
 
-insert into categoria values
+insert into Supermercado.categoria values
 	('fruta'),
 	('legumes'),
 	('leguminosas'),
@@ -12,7 +12,7 @@ insert into categoria values
 	('carnes vermelhas'),
 	('carnes de aves');
 
-insert into categoria_simples values
+insert into Supermercado.categoria_simples values
 	('fruta'),
 	('peixe de rio'),
 	('peixe de mar'),
@@ -21,12 +21,12 @@ insert into categoria_simples values
 	('carnes vermelhas'),
 	('carnes de aves');
 
-insert into super_categoria values
+insert into Supermercado.super_categoria values
 	('legumes'),
 	('peixe'),
 	('carne');
 
-insert into constituida values
+insert into Supermercado.constituida values
 	('legumes', 'verdura'),
 	('legumes', 'tuberculos'),
 	('legumes', 'leguminosas'),
@@ -35,7 +35,7 @@ insert into constituida values
 	('peixe', 'peixe de rio'),
 	('peixe', 'peixe de mar');
 
-insert into fornecedor values
+insert into Supermercado.fornecedor values
 	(368661129, 'Desfruta'),
 	(352826670, 'MR Frutas'),
 	(984879695, 'Padariagate'),
@@ -49,7 +49,7 @@ insert into fornecedor values
 	(853983518, 'Sogenave'),
 	(878613881, 'Gelpinhos'),
 	(607512605, 'Machorro e Filhos');
-insert into produto values 
+insert into Supermercado.produto values
 	(9806327911116, 'bananas', 'fruta', 368661129, to_date('05 Dec 2000', 'DD Mon YYYY')),
 	(3651188857489, 'laranjas', 'fruta', 352826670, to_date('05 Jan 2000', 'DD Mon YYYY')),
 	(8871847294232, 'tangerina', 'fruta', 352826670, to_date('05 Mar 2000', 'DD Mon YYYY')),
@@ -74,8 +74,8 @@ insert into produto values
 	(7465250659198, 'bifes de peru', 'carnes de aves', 294736135, to_date('05 Dec 2012', 'DD Mon YYYY')),
 	(5471671422710, 'frango', 'carnes de aves', 294736135, to_date('05 Dec 2007', 'DD Mon YYYY')),
 	(9236111829403, 'hamburguer de vaca', 'carnes vermelhas', 453251781, to_date('16 Dec 2000', 'DD Mon YYYY'));
-	
-insert into fornece_sec values
+
+insert into Supermercado.fornece_sec values
 	(352826670, 9806327911116),
 	(607512605, 3651188857489),
 	(607512605, 8871847294232),
@@ -101,7 +101,7 @@ insert into fornece_sec values
 	(853983518, 5471671422710),
 	(853983518, 9236111829403);
 
-insert into corredor values
+insert into Supermercado.corredor values
 	(1, 5.50),
 	(2, 5.50),
 	(3, 5.50),
@@ -111,7 +111,7 @@ insert into corredor values
 	(7, 5.50),
 	(8, 5.50);
 
-insert into prateleira values
+insert into Supermercado.prateleira values
 	(1, 'esq', 'chao'),
 	(2, 'dir', 'chao'),
 	(3, 'esq', 'medio'),
@@ -128,9 +128,9 @@ insert into prateleira values
 	(6, 'esq', 'superior'),
 	(7, 'dir', 'superior'),
 	(8, 'esq', 'medio');
-	
 
-insert into planograma values
+
+insert into Supermercado.planograma values
 	(9806327911116, 1, 'esq', 'chao', 10, 30, 5),
 	(3651188857489, 1, 'dir', 'chao', 10, 30, 5),
 	(8871847294232, 2, 'esq', 'chao', 10, 30, 5),
