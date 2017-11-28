@@ -1,6 +1,17 @@
 <html>
-<head>   <meta charset="UTF-8"></head>
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        function requestRename(ean, currName){
+            var newName = prompt("Porfavor insira o novo nome para o produto: " + currName);
+            if(newName!= null){
+                window.location.href = ('dbEdit/renomearProduto.php?ean='+ean+"&newName="+newName);
+            }
+        }
+    </script>
+</head>
 <body>
+
 <!--$time = date("H:i");-->
 <!--<p>Horas: <input type=\"time\" name='instante' value=\"$time\" />\n</p>-->
 
@@ -26,8 +37,8 @@ try{
         <p>Ean*: <input type=\"text\" name='ean' value=\"1234567890123\"/>\n</p>
         <p>Desginação: <input type=\"text\" name='design'/>\n</p>
         <p>Categoria:<input type=\"text\" name='categoria'/>\n</p>
-        <p>Fornecedor primário*:<input type=\"text\" name='forn_primario' value=\"nif fornecedor primario\"/>\n</p>
-        <p>Fornecedores secundários (separar por uma virgula)<input type=\"text\" name='forn_secundario' value=\"ex: nif1, nif2\"/>\n</p>
+        <p>Fornecedor primário*:<input type=\"text\" name='forn_primario' value=\"368661129\"/>\n</p>
+        <p>Fornecedores secundários (separar por uma virgula)<input type=\"text\" name='forn_secundario'/>\n</p>
         <p>Data: <input type=\"date\" name='data' value=\"$date\" />\n</p>
         <p><input type=\"submit\" value=\"Submeter\"/></p>\n
     </form>\n");
@@ -46,6 +57,10 @@ try{
         echo($row['forn_primario']);
         echo("</td><td>");
         echo($row['data']);
+        echo("</td><td>");
+        $eanToRename = $row['ean'];
+        $nameToRename = $row['design'];
+        echo("<a href=\"#\" onclick=\"requestRename('$eanToRename', '$nameToRename')\">renomear</a>");
         echo("</td><td>");
         echo("<a href=\"dbEdit/removerProduto.php?ean={$row['ean']}\">remover</a>");
         echo("</td></tr>");

@@ -95,6 +95,16 @@ begin
 end
 $$ language plpgsql;
 
+create or replace function check_product_values() returns trigger
+as $$
+begin
+	if (new.categoria = '') then new.categoria = null; end if;
+	if (new.design = '') then new.design = null; end if;
+	return new;
+end
+$$ language plpgsql;
+
+
 
 /**********************************************************************************
  *						      CREATE TABLES 									  *
@@ -124,7 +134,8 @@ create table Supermercado.produto(
 	constraint fk_categoria foreign key (categoria) references Supermercado.categoria(nome) on delete cascade,
 	constraint fk_forn_primario foreign key (forn_primario) references Supermercado.fornecedor(nif) on delete cascade
 );
-
+create trigger trigger_produto before insert on Supermercado.produto
+for each row execute procedure check_product_values();
 
 
 create table Supermercado.corredor(
