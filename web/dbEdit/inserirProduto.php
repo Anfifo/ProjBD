@@ -6,11 +6,13 @@
 <?php
     $ean = $_REQUEST['ean'];
     $design = $_REQUEST['design'];
-    $category = $_REQUEST['categoria'];
+
+    $categoria = $_REQUEST['categoria'];
+    $categoria = !empty($categoria) ? $categoria : NULL;
+
     $forn_primario = $_REQUEST['forn_primario'];
     $data = $_REQUEST['data'];
     $forn_secundario = $_REQUEST['forn_secundario'];
-
     $secundarios = explode (",", $forn_secundario);
     $data = date('d-m-Y', strtotime($data));
 
@@ -33,7 +35,7 @@ try
         $db->query($sql);
 
 
-        $sql = "INSERT INTO Supermercado.produto VALUES ( '$ean', '$design', '$categoria', $forn_primario, to_date('$data', 'DD MM YYYY'));";
+        $sql = "INSERT INTO Supermercado.produto (ean, design,categoria, forn_primario, data) VALUES ( '$ean', '$design', '$categoria', $forn_primario, to_date('$data', 'DD MM YYYY'));";
         echo("<p>$sql</p>");
         $db->query($sql);
 
@@ -43,7 +45,11 @@ try
         foreach($secundarios as $forn){
             $forn = trim($forn); //trims so no white spaces at end or end
             $sql = "SELECT nif FROM Supermercado.fornecedor WHERE nif = '$forn';"; //verify if fornecedor exists
-
+            echo("<p>$sql</p>");
+            $db->query($sql);
+            $sql = "INSERT INTO Supermercado.fornece_sec (nif, ean) VALUES ( '$forn', '$ean');";
+            echo("<p>$sql</p>");
+            $db->query($sql);
         }
 
 
