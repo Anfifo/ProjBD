@@ -2,10 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript">
-        function requestRename(ean, currName){
+        function requestRename(link, currName){
             var newName = prompt("Porfavor insira o novo nome para o produto: " + currName);
+            console.log(link);
             if(newName!= null){
-                window.location.href = ('dbEdit/renomearProduto.php?ean='+ean+"&newName="+newName);
+                window.location.href = (link + newName);
             }
         }
     </script>
@@ -16,6 +17,9 @@
 <?php
 try{
     $ROOT = "../";
+    $addProdutoLink = $ROOT . "dbEdit/inserirProduto.php";
+    $rmProdutoLink = $ROOT . "dbEdit/removerProduto.php";
+    $renomearProdutoLink = $ROOT . "dbEdit/renomearProduto.php";
     include($ROOT."header.php");
     require($ROOT."dbEdit/dbAcess.php");
     $db = initConnection();
@@ -36,14 +40,14 @@ try{
 
     echo("<h1>Produtos</h1>");
 
-    echo("<form action=\"dbEdit/inserirProduto.php\" method=\"post\">\n
+    echo("<form action=\"$addProdutoLink\" method=\"post\">\n
         <p><h3>Inserir novo Porduto:</h3></p><p></p>\n
         <p>Ean: <input type=\"text\" name='ean' value=\"1234567890123\"/ required>\n</p>
         <p>Desginação: <input type=\"text\" name='design'/>\n</p>
         <p>Categoria:<input type=\"text\" name='categoria'/>\n</p>
         <p>Fornecedor primário:</p><p><select name='forn_primario' required/>$selectForn</select>\n</p>
         <p>Fornecedores secundários(ctrl para seleccionar varios):\n</p>
-        <p><select name='forn_secundario'  size = \"6\" required multiple />$selectForn</select>\n</p>
+        <p><select name='forn_secundario[]'  size = \"6\" required multiple />$selectForn</select>\n</p>
         <p>Data: <input type=\"date\" name='data' value=\"$date\" required/>\n</p>
         <p><input type=\"submit\" value=\"Submeter\"/></p>\n
     </form>\n");
@@ -66,9 +70,11 @@ try{
         echo("</td><td>");
         $eanToRename = $row['ean'];
         $nameToRename = $row['design'];
-        echo("<a href=\"#\" onclick=\"requestRename('$eanToRename', '$nameToRename')\">renomear</a>");
+        $linkToRename = $renomearProdutoLink . "?ean=".$eanToRename."&newName=";
+        echo("<a href=\"#\" onclick=\"requestRename('$linkToRename', '$nameToRename')\">renomear</a>");
         echo("</td><td>");
-        echo("<a href=\"../dbEdit/removerProduto.php?ean={$row['ean']}\">remover</a>");
+        $linkR = $rmProdutoLink."?ean={$row['ean']}";
+        echo("<a href=\"$rmProdutoLink\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");

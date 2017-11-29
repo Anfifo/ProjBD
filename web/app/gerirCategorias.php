@@ -6,7 +6,9 @@
 <?php
 try{
     $ROOT = "../";
-
+    $addCategoriaLink = $ROOT . "dbEdit/inserirCategoria.php";
+    $rmCategoriaLink = $ROOT . "dbEdit/removerCategoria.php";
+    include($ROOT."header.php");
     require($ROOT."dbEdit/dbAcess.php");
     $db = initConnection();
 
@@ -21,7 +23,8 @@ try{
         echo("<tr><td>");
         echo($row['nome']);
         echo("</td><td>");
-        echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
+        $linkR = $rmCategoriaLink . "?nomeCategoria={$row['nome']}";
+        echo("<a href=\"$linkR\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
@@ -33,7 +36,7 @@ try{
 
     echo("<h1>CATEGORIAS SIMPLES</h1>");
 
-    echo("<form action=\"dbEdit/inserirCategoria.php\" method=\"post\">\n
+    echo("<form action=\"$addCategoriaLink\" method=\"post\">\n
         <input type=\"hidden\" name=\"tipoCategoria\" value=\"categoria_simples\"/>\n
         <p>Inserir nova categoria simples:</p><p></p>\n
         <input type=\"text\" name='nomeCategoria' value=\"nome categoria\"/>\n
@@ -46,6 +49,7 @@ try{
         echo("<tr><td>");
         echo($row['nome']);
         echo("</td><td>");
+        $linkR = $rmCategoriaLink . "?nomeCategoria={$row['nome']}";
         echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
         echo("</td></tr>");
     }
@@ -58,7 +62,7 @@ try{
 
     echo("<h1> SUPER CATEGORIAS</h1>");
 
-    echo("<form action=\"dbEdit/inserirCategoria.php\" method=\"post\">\n
+    echo("<form action=\"$addCategoriaLink\" method=\"post\">\n
         <input type=\"hidden\" name=\"tipoCategoria\" value=\"super_categoria\"/>\n
         <p>Inserir nova categoria simples:</p><p></p>\n
         <input type=\"text\" name='nomeCategoria' value=\"nome categoria\"/>\n
@@ -71,12 +75,11 @@ try{
         echo("<tr><td>");
         echo($row['nome']);
         echo("</td><td>");
-        echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
+        $linkR = $rmCategoriaLink . "?nomeCategoria={$row['nome']}";
+        echo("<a href=\"$linkR\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
-
-
 
 
 

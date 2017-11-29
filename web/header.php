@@ -13,7 +13,7 @@ echo/** @lang CSS */
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 15px;
   text-decoration: none;
   font-size: 17px;
 }
@@ -26,7 +26,8 @@ echo/** @lang CSS */
 .topnav a.active {
   background-color: #4CAF50;
   color: white;
-}</style>
+}
+</style>
 <div class=\"topnav\">
   <a href=\"$index\">Home</a>
   <a href=\"$produtosLink\">Produtos</a>
