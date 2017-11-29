@@ -6,18 +6,20 @@
         require ("dbAcess.php");
         $db = initConnection();
 
-        $db->query("start transaction;");
+        $sql = "SELECT * FROM Supermercado.listar_sub_categorias('$categoryName')";
+        $result = $db->query($sql);
 
-        $sql = "DELETE FROM Supermercado.categoria WHERE nome='$categoryName';";
-        echo("<p>$sql</p>");
-        $db->query($sql);
+        echo("<h1> SUB CATEGORIAS</h1>");
 
-        $db->query("commit;");
-
-        $db = null;
-
-        echo("Categoria $categoryName removida com Sucesso");
+        echo("<table border = \"1\">\n");
+    foreach($result as $row){
+        echo("<tr><td>");
+        echo($row['nome']);
+        echo("</td></tr>");
     }
+    
+    $db = null;
+
     catch (PDOException $e)
     {
         $db->query("rollback;");
