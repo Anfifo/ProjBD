@@ -6,14 +6,10 @@
 <?php
     $ean = $_REQUEST['ean'];
     $design = $_REQUEST['design'];
-
     $categoria = $_REQUEST['categoria'];
-    $categoria = !empty($categoria) ? $categoria : NULL;
-
     $forn_primario = $_REQUEST['forn_primario'];
     $data = $_REQUEST['data'];
-    $forn_secundario = $_REQUEST['forn_secundario'];
-    $secundarios = explode (",", $forn_secundario);
+    $secundarios = $_REQUEST['forn_secundario'];
     $data = date('d-m-Y', strtotime($data));
 
 

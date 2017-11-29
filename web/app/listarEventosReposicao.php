@@ -4,9 +4,11 @@
 
 <?php
 try{
+
+    $ROOT = "../";
+    include($ROOT."header.php");
     require("../dbEdit/dbAcess.php");
     $db = initConnection();
-
 
     $sql = "SELECT * FROM Supermercado.evento_reposicao";
     $result = $db->query($sql);
