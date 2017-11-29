@@ -92,6 +92,7 @@ begin
 end
 $$ language plpgsql;
 
+
 create or replace function check_product_values() returns trigger
 as $$
 begin
