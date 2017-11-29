@@ -77,7 +77,7 @@ try{
         echo("</td><td>");
         echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
         echo("</td><td>");
-        echo("<a href=\"../dbEdit/listarSubCategorias.php?nomeCategoria={$row['nome']}\">listar sub categorias</a>");
+        echo("<a href=\"listarSubCategorias.php?nomeCategoria={$row['nome']}\">listar sub categorias</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");

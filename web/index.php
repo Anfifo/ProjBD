@@ -22,7 +22,7 @@
     <div class = "menu"><a href="app/gerirProdutos.php"> Inserir e remover produtos </a></div>
     <div class = "menu"><a href="app/gerirProdutos.php"> Alterar designação de um produto </a></div>
     <div class = "menu"><a href="app/listarEventosReposicao.php"> Listar eventos de reposição </a></div>
-    <div class = "menu"><a href="app/listarSubCategorias.php"> Listar sub-categorias de uma super-categoria </a></div>
+    <div class = "menu"><a href="app/gerirCategorias.php"> Listar sub-categorias de uma super-categoria </a></div>
 
 </body>
 </html>
