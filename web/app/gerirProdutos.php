@@ -12,18 +12,22 @@
 </head>
 <body>
 
-<!--$time = date("H:i");-->
-<!--<p>Horas: <input type=\"time\" name='instante' value=\"$time\" />\n</p>-->
 
 <?php
 try{
-    $host = "db.ist.utl.pt";
-    $user = "ist425998";
-    $password = "04091991";
-    $dbname = $user;
+    $ROOT = "../";
+    include($ROOT."header.php");
+    require($ROOT."dbEdit/dbAcess.php");
+    $db = initConnection();
 
-    $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "SELECT * FROM Supermercado.fornecedor";
+    $fornecedores = $db->query($sql);
+    $selectForn = "";
+    forEach($fornecedores as $fornecedor){
+        $fornNif = $fornecedor['nif'];
+        $fornNome = $fornecedor['nome'];
+        $selectForn = $selectForn . "<option value= '$fornNif'>$fornNif - $fornNome</option>";
+    }
 
 
     $sql = "SELECT * FROM Supermercado.produto";
@@ -34,14 +38,16 @@ try{
 
     echo("<form action=\"dbEdit/inserirProduto.php\" method=\"post\">\n
         <p><h3>Inserir novo Porduto:</h3></p><p></p>\n
-        <p>Ean*: <input type=\"text\" name='ean' value=\"1234567890123\"/>\n</p>
+        <p>Ean: <input type=\"text\" name='ean' value=\"1234567890123\"/ required>\n</p>
         <p>Desginação: <input type=\"text\" name='design'/>\n</p>
         <p>Categoria:<input type=\"text\" name='categoria'/>\n</p>
-        <p>Fornecedor primário*:<input type=\"text\" name='forn_primario' value=\"368661129\"/>\n</p>
-        <p>Fornecedores secundários (separar por uma virgula)<input type=\"text\" name='forn_secundario'/>\n</p>
-        <p>Data: <input type=\"date\" name='data' value=\"$date\" />\n</p>
+        <p>Fornecedor primário:</p><p><select name='forn_primario' required/>$selectForn</select>\n</p>
+        <p>Fornecedores secundários(ctrl para seleccionar varios):\n</p>
+        <p><select name='forn_secundario'  size = \"6\" required multiple />$selectForn</select>\n</p>
+        <p>Data: <input type=\"date\" name='data' value=\"$date\" required/>\n</p>
         <p><input type=\"submit\" value=\"Submeter\"/></p>\n
     </form>\n");
+
 
     echo("<h3>Produtos Existentes</h3>");
     echo("<table border = \"1\">\n");
@@ -62,16 +68,14 @@ try{
         $nameToRename = $row['design'];
         echo("<a href=\"#\" onclick=\"requestRename('$eanToRename', '$nameToRename')\">renomear</a>");
         echo("</td><td>");
-        echo("<a href=\"dbEdit/removerProduto.php?ean={$row['ean']}\">remover</a>");
+        echo("<a href=\"../dbEdit/removerProduto.php?ean={$row['ean']}\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
 
 
 
-
-    $db = null;
-
+    closeConnection($db);
 }catch(PDOException $e){
     echo("<p>ERROR:{$e->getMessage()} </p>");
 }

@@ -1,18 +1,14 @@
 <html>
 <head>   <meta charset="UTF-8"></head>
 <body>
-    Listar todas as categorias com botão de remover a frente
-    colocar opção de adicionar categoria nova
+
 
 <?php
 try{
-    $host = "db.ist.utl.pt";
-    $user = "ist425998";
-    $password = "04091991";
-    $dbname = $user;
+    $ROOT = "../";
 
-    $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require($ROOT."dbEdit/dbAcess.php");
+    $db = initConnection();
 
 
     $sql = "SELECT nome FROM Supermercado.categoria";
@@ -25,7 +21,7 @@ try{
         echo("<tr><td>");
         echo($row['nome']);
         echo("</td><td>");
-        echo("<a href=\"dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
+        echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
@@ -50,7 +46,7 @@ try{
         echo("<tr><td>");
         echo($row['nome']);
         echo("</td><td>");
-        echo("<a href=\"dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
+        echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
@@ -75,7 +71,7 @@ try{
         echo("<tr><td>");
         echo($row['nome']);
         echo("</td><td>");
-        echo("<a href=\"dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
+        echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
