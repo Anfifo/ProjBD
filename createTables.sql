@@ -7,12 +7,9 @@ CREATE SCHEMA IF NOT EXISTS Supermercado;
 /**********************************************************************************
  *								CREATE DOMAINS 									  *
  **********************************************************************************/
-drop table if exists Supermercado.categoria, Supermercado.fornecedor, Supermercado.produto, Supermercado.corredor,
-					 Supermercado.prateleira, Supermercado.planograma, Supermercado.categoria_simples, Supermercado.super_categoria,
-					 Supermercado.constituida, Supermercado.fornece_sec, Supermercado.evento_reposicao, Supermercado.reposicao;
+drop table if exists Supermercado.categoria, Supermercado.fornecedor, Supermercado.produto, Supermercado.corredor, Supermercado.prateleira, Supermercado.planograma, Supermercado.categoria_simples, Supermercado.super_categoria, Supermercado.constituida, Supermercado.fornece_sec, Supermercado.evento_reposicao, Supermercado.reposicao;
 
-drop domain if exists Supermercado.EAN, Supermercado.NIF, Supermercado.NRO, Supermercado.LADO, Supermercado.ALTURA, 
-					  Supermercado.CAT_NOME, Supermercado.OPERADOR, Supermercado.INSTANTE;
+drop domain if exists Supermercado.EAN, Supermercado.NIF, Supermercado.NRO, Supermercado.LADO, Supermercado.ALTURA, Supermercado.CAT_NOME, Supermercado.OPERADOR, Supermercado.INSTANTE;
 
 create domain Supermercado.EAN as numeric(13,0);
 create domain Supermercado.NIF as numeric(9,0);
@@ -24,11 +21,11 @@ create domain Supermercado.OPERADOR as varchar(100);
 create domain Supermercado.INSTANTE as timestamp;
 
 /**********************************************************************************
- *							PROCEDURES FOR TRIGGERS 						      *
+ *							FUNCTIONS FOR TRIGGERS 						      *
  **********************************************************************************/
 
  /* RI-EA1: Nao podem existir ciclo super_categoria e categoria (1 nivel)*/
-create or replace function ciclos_constituida() returns trigger
+create or replace function Supermercado.ciclos_constituida() returns trigger
 as $$
 begin
 	if exists (select super_categoria, categoria from Supermercado.constituida
@@ -43,7 +40,7 @@ $$ language plpgsql;
 
 
 /* RI-EA3​ : O instante mais recente de reposicao tem de ser sempre anterior ou igual a data atual */
-create or replace function data_anterior_atual() returns trigger
+create or replace function Supermercado.data_anterior_atual() returns trigger
 as $$
 begin
 	if (new.instante > CURRENT_TIMESTAMP)
@@ -57,7 +54,7 @@ $$ language plpgsql;
 
 
 /* RI-EA4: O fornecedor (primario) de um produto nao pode existir na relacao fornece_sec para o mesmo produto */
-create or replace function fornecedor_disjoint() returns trigger
+create or replace function Supermercado.fornecedor_disjoint() returns trigger
 as $$
 begin
 	if exists (select * from Supermercado.produto
@@ -71,7 +68,7 @@ $$ language plpgsql;
 
 
 /* RI-RE2: Nome nao pode existir simultaneamente em categoria_simples e em super_categoria */
-create or replace function categoria_simples_disjoint() returns trigger
+create or replace function Supermercado.categoria_simples_disjoint() returns trigger
 as $$
 begin
 		if exists (select * from Supermercado.super_categoria where nome = new.nome)
@@ -83,7 +80,7 @@ begin
 end
 $$ language plpgsql;
 
-create or replace function super_categoria_disjoint() returns trigger
+create or replace function Supermercado.super_categoria_disjoint() returns trigger
 as $$
 begin
 		if exists (select * from Supermercado.categoria_simples where nome = new.nome)
@@ -177,7 +174,7 @@ create table Supermercado.categoria_simples(
 );
 /* RI-RE2: Nome nao pode existir simultaneamente em categoria_simples e em super_categoria */
 create trigger trigger_categoria_simples before insert on Supermercado.categoria_simples
-	for each row execute procedure categoria_simples_disjoint();
+	for each row execute procedure Supermercado.categoria_simples_disjoint();
 
 
 
@@ -189,7 +186,7 @@ create table Supermercado.super_categoria(
 );
 /* RI-RE2: Nome nao pode existir simultaneamente em categoria_simples e em super_categoria */
 create trigger trigger_super_categoria before insert on Supermercado.super_categoria
-	for each row execute procedure super_categoria_disjoint();
+	for each row execute procedure Supermercado.super_categoria_disjoint();
 
 
 
@@ -204,7 +201,7 @@ create table Supermercado.constituida(
 );
 /* RI-EA1: Nao podem existir ciclo super_categoria e categoria (1 nivel)*/
 create trigger trigger_constituida before insert on Supermercado.constituida
-	for each row execute procedure ciclos_constituida();
+	for each row execute procedure Supermercado.ciclos_constituida();
 
 
 
@@ -218,7 +215,7 @@ create table Supermercado.fornece_sec(
 );
 /* RI-EA4: O fornecedor (primario) de um produto nao pode existir na relacao fornece_sec para o mesmo produto */
 create trigger trigger_fornece_sec before insert on Supermercado.fornece_sec
-	for each row execute procedure fornecedor_disjoint();
+	for each row execute procedure Supermercado.fornecedor_disjoint();
 
 
 
@@ -229,7 +226,7 @@ create table Supermercado.evento_reposicao(
 );
 /* RI-EA3​ : O instante mais recente de reposicao tem de ser sempre anterior ou igual a data atual */
 create trigger trigger_evento_reposicao before insert on Supermercado.evento_reposicao
-	for each row execute procedure data_anterior_atual();
+	for each row execute procedure Supermercado.data_anterior_atual();
 
 
 
@@ -245,4 +242,3 @@ create table Supermercado.reposicao(
 	constraint fk_ean_nro_lado_altura foreign key (ean, nro, lado, altura) references Supermercado.planograma on delete cascade,
 	constraint fk_operador_instante foreign key (operador, instante) references Supermercado.evento_reposicao on delete cascade
 );
-
