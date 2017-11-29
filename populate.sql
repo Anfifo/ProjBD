@@ -8,6 +8,8 @@ insert into Supermercado.categoria values
 	('peixe'),
 	('peixe de rio'),
 	('peixe de mar'),
+	('embalados'),
+	('talho'),
 	('carne'),
 	('carnes vermelhas'),
 	('carnes de aves');
@@ -24,12 +26,16 @@ insert into Supermercado.categoria_simples values
 insert into Supermercado.super_categoria values
 	('legumes'),
 	('peixe'),
+	('embalados'),
+	('talho'),
 	('carne');
 
 insert into Supermercado.constituida values
 	('legumes', 'verdura'),
 	('legumes', 'tuberculos'),
 	('legumes', 'leguminosas'),
+	('embalados', 'talho'),
+	('talho', 'carne'),
 	('carne', 'carnes vermelhas'),
 	('carne', 'carnes de aves'),
 	('peixe', 'peixe de rio'),
