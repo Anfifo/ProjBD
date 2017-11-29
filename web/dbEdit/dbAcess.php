@@ -17,7 +17,3 @@ function closeConnection(&$db){
     $db = null;
 
 }
-
-function outputSQLTable(){
-
-}

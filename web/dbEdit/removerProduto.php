@@ -1,7 +1,3 @@
-<html>
-<head>   <meta charset="UTF-8"></head>
-
-<body>
 <?php
 $ean = $_REQUEST['ean'];
 
@@ -27,6 +23,3 @@ catch (PDOException $e)
     $db->query("rollback;");
     echo("<p>ERROR: {$e->getMessage()}</p>");
 }
-?>
-</body>
-</html>

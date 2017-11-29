@@ -1,8 +1,3 @@
-<html>
-<head>   <meta charset="UTF-8"></head>
-
-<body>
-
 <?php
     $ean = $_REQUEST['ean'];
     $design = $_REQUEST['design'];
@@ -55,6 +50,3 @@ try
         $db->query("rollback;");
         echo("<p>ERROR: {$e->getMessage()}</p>");
     }
-?>
-</body>
-</html>

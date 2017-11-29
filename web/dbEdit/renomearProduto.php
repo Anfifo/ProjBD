@@ -1,7 +1,3 @@
-<html>
-<head>   <meta charset="UTF-8"></head>
-
-<body>
 <?php
     $ean = $_REQUEST['ean'];
     $newName= $_REQUEST['newName'];
@@ -30,6 +26,3 @@
         $db->query("rollback;");
         echo("<p>ERROR: {$e->getMessage()}</p>");
     }
-?>
-</body>
-</html>

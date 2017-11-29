@@ -1,7 +1,3 @@
-<html>
-<head>   <meta charset="UTF-8"></head>
-
-<body>
 <?php
     $categoryName = $_REQUEST['nomeCategoria'];
 
@@ -27,6 +23,4 @@
         $db->query("rollback;");
         echo("<p>ERROR: {$e->getMessage()}</p>");
     }
-?>
-</body>
-</html>
+
