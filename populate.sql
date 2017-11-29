@@ -35,7 +35,7 @@ insert into Supermercado.constituida values
 	('legumes', 'tuberculos'),
 	('legumes', 'leguminosas'),
 	('embalados', 'talho'),
-	('talho'), ('carne'),
+	('talho', 'carne'),
 	('carne', 'carnes vermelhas'),
 	('carne', 'carnes de aves'),
 	('peixe', 'peixe de rio'),

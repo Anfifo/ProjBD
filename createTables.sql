@@ -8,7 +8,7 @@ CREATE SCHEMA IF NOT EXISTS Supermercado;
  *								CREATE DOMAINS 									  *
  **********************************************************************************/
 drop table if exists Supermercado.categoria, Supermercado.fornecedor, Supermercado.produto, Supermercado.corredor, Supermercado.prateleira, Supermercado.planograma, Supermercado.categoria_simples, Supermercado.super_categoria, Supermercado.constituida, Supermercado.fornece_sec, Supermercado.evento_reposicao, Supermercado.reposicao;
-
+drop function if exists Supermercado.listar_sub_categorias(Supermercado.CAT_NOME);
 drop domain if exists Supermercado.EAN, Supermercado.NIF, Supermercado.NRO, Supermercado.LADO, Supermercado.ALTURA, Supermercado.CAT_NOME, Supermercado.OPERADOR, Supermercado.INSTANTE;
 
 create domain Supermercado.EAN as numeric(13,0);
@@ -21,22 +21,47 @@ create domain Supermercado.OPERADOR as varchar(100);
 create domain Supermercado.INSTANTE as timestamp;
 
 /**********************************************************************************
- *							FUNCTIONS FOR TRIGGERS 						      *
+ *									FUNCTIONS					                  *
  **********************************************************************************/
 
- /* RI-EA1: Nao podem existir ciclo super_categoria e categoria (1 nivel)*/
+ /* Lista todas as subcategorias de uma dada super categoria, a todos os niveis */
+create or replace function Supermercado.listar_sub_categorias(cat Supermercado.CAT_NOME) 
+	returns table(sub_categoria Supermercado.CAT_NOME)
+as $$
+begin
+	return query
+	with recursive sub_cat as (
+		select * 
+		from Supermercado.constituida 
+		where super_categoria = cat
+
+		union 
+
+		Select *
+		from Supermercado.constituida 
+		natural join
+		(select categoria as super_categoria from sub_cat) as C
+	)
+	select categoria from sub_cat;
+end
+$$ language plpgsql;
+
+/**********************************************************************************
+ *							FUNCTIONS FOR TRIGGERS 						          *
+ **********************************************************************************/
+
+ /* RI-EA1: Nao podem existir ciclos entre super_categoria e categoria*/
 create or replace function Supermercado.ciclos_constituida() returns trigger
 as $$
 begin
-	if exists (select super_categoria, categoria from Supermercado.constituida
-		   where super_categoria = new.categoria and categoria = new.super_categoria)
+	if exists (select * from Supermercado.listar_sub_categorias(new.categoria) 
+				where sub_categoria = new.super_categoria)
 	then
 		raise exception 'Nao e possivel criar ciclos em constituida.';
 	end if;
 	return new;
 end
 $$ language plpgsql;
-
 
 
 /* RI-EA3​ : O instante mais recente de reposicao tem de ser sempre anterior ou igual a data atual */
