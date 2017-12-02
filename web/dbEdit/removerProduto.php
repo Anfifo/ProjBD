@@ -1,25 +1,30 @@
 <?php
-$ean = $_REQUEST['ean'];
+    $ean = $_REQUEST['ean'];
+    $details = array();
 
-try
-{
-    require ("dbAcess.php");
-    $db = initConnection();
+    try
+    {
+        require ("dbAcess.php");
+        $db = initConnection();
 
-    $db->query("start transaction;");
+        $db->query("start transaction;");
 
-    $sql = "DELETE FROM Supermercado.produto WHERE ean='$ean';";
-    echo("<p>$sql</p>");
-    $db->query($sql);
+        $error = "Produto com ean '" . $ean ."' nao encontrado";
+        print("$ean");
+        $sql = "DELETE FROM Supermercado.produto WHERE ean='$ean';";
+        $details = $sql;
+        $db->query($sql);
 
-    $db->query("commit;");
+        $db->query("commit;");
+        $db = null;
 
-    $db = null;
-
-    echo("Produto $ean removido com Sucesso");
-}
-catch (PDOException $e)
-{
-    $db->query("rollback;");
-    echo("<p>ERROR: {$e->getMessage()}</p>");
-}
+        $successMsg = "Produto '" . $ean . "' removido com sucesso.";
+        header("Location:../output.php?successMsg=$successMsg");
+    }
+    catch (PDOException $e)
+    {
+        $db->query("rollback;");
+        $sqlError = $e->getMessage();
+        $error = "Erro ao remover produto: " . $error . "\n" . $sqlError;
+        exitError($error, $db);
+    }

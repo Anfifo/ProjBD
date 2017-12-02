@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <script type="text/javascript">
         function requestRename(link, currName){
-            var newName = prompt("Porfavor insira o novo nome para o produto: " + currName);
+            var newName = prompt("Por favor insira o novo nome para o produto: " + currName);
             console.log(link);
             if(newName!= null){
                 window.location.href = (link + newName);
@@ -68,13 +68,13 @@ try{
         echo("</td><td>");
         echo($row['data']);
         echo("</td><td>");
-        $eanToRename = $row['ean'];
+        $ean = $row['ean'];
         $nameToRename = $row['design'];
-        $linkToRename = $renomearProdutoLink . "?ean=".$eanToRename."&newName=";
+        $linkToRename = $renomearProdutoLink . "?ean=".$ean."&newName=";
         echo("<a href=\"#\" onclick=\"requestRename('$linkToRename', '$nameToRename')\">renomear</a>");
         echo("</td><td>");
-        $linkR = $rmProdutoLink."?ean={$row['ean']}";
-        echo("<a href=\"$rmProdutoLink\">remover</a>");
+        $linkR = $rmProdutoLink."?ean=".$ean;
+        echo("<a href=\"$linkR\">remover</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");

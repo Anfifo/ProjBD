@@ -4,7 +4,6 @@
     $category = $_REQUEST['tipoCategoria'];
 
     $details = array();
-    $errors = array();
     try
     {
         require ("dbAcess.php");
@@ -12,10 +11,12 @@
 
         $db->query("start transaction;");
 
+        $error = "Categoria '". $categoryName ."' é inválido ou já existe.";
         $sql = "INSERT INTO Supermercado.categoria VALUES ('$categoryName');";
         $detail[] = $sql;
         $db->query($sql);
 
+        $error = "Categoria '".$categoryName ."' é inválido ou já existe.";
         $sql = "INSERT INTO Supermercado.$category VALUES ('$categoryName');";
         $detail[] = $sql;
         $db->query($sql);
@@ -23,9 +24,13 @@
         $db->query("commit;");
         $db = null;
 
+        $successMsg = "Categoria '" . $categoryName . "' adicionada com sucesso.";
+        header("Location:../output.php?successMsg=$successMsg");
     }
     catch (PDOException $e)
     {
         $db->query("rollback;");
-        $errors[] = $e->getMessage();
+        $sqlError = $e->getMessage();
+        $error = "Erro ao adicionar categoria: " . $error;
+        exitError($error, $db);
     }

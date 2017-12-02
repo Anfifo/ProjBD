@@ -17,3 +17,9 @@ function closeConnection(&$db){
     $db = null;
 
 }
+
+function exitError($error, &$db){
+    $db->query("rollback;");
+    header("Location:../output.php?errorMsg=$error");
+    exit();
+}

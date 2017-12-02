@@ -1,6 +1,6 @@
 <?php
     $categoryName = $_REQUEST['nomeCategoria'];
-
+    $details = array();
     try
     {
         require ("dbAcess.php");
@@ -8,19 +8,23 @@
 
         $db->query("start transaction;");
 
+        $error = "Categoria '" . $categoryName . "' não encontrada.";
         $sql = "DELETE FROM Supermercado.categoria WHERE nome='$categoryName';";
-        echo("<p>$sql</p>");
+        $details = $sql;
         $db->query($sql);
 
         $db->query("commit;");
 
         $db = null;
 
-        echo("Categoria $categoryName removida com Sucesso");
+        $successMsg = "Categoria '" . $categoryName . "' removida com sucesso.";
+        header("Location:../output.php?successMsg=$successMsg");
     }
     catch (PDOException $e)
     {
         $db->query("rollback;");
-        echo("<p>ERROR: {$e->getMessage()}</p>");
+        $sqlError = $e->getMessage();
+        $error = "Erro ao remover categoria: " . $error;
+        exitError($error, $db);
     }
 ?>

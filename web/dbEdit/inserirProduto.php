@@ -5,48 +5,97 @@
     $forn_primario = $_REQUEST['forn_primario'];
     $data = $_REQUEST['data'];
     $secundarios = $_REQUEST['forn_secundario'];
-    $data = date('d-m-Y', strtotime($data));
 
+    $data = date('d-m-Y', strtotime($data));
+    $error = "Erro ao adicionar produto: ";
 
 try
     {
         require ("dbAcess.php");
         $db = initConnection();
 
+        //Verifications
+        //verify if  fornecedor primario existe
+        $sql = "SELECT nif FROM Supermercado.fornecedor WHERE nif = '$forn_primario' LIMIT 1;"; //verify if fornecedor exists
+        $test = $db->query($sql);
+        if ($test->rowCount() == 0){
+            exitError($error." Fornecedor " . $ean . "não encontrado.", $db);
+        }
+
+        //verify if categoria existe
+       if(!empty($categoria)){
+           $sql = "SELECT nome FROM Supermercado.categoria WHERE nome = '$categoria' LIMIT 1;"; //verify if fornecedor exists
+           $test = $db->query($sql);
+           if ($test->rowCount() == 0){
+               exitError($error." Categoria " . $categoria . "não encontrada.", $db);
+           }
+       }
+
+       //verify ean is a positive number
+        if( (int)$ean < 0 || strlen($ean) != 13){
+           $testerino = "nope";
+           exitError($error . " O ean " . $ean. " tem de ser um número inteiro com 13 digitos.", $db);
+        }
+
+        if($data > date('d-m-Y')){
+            exitError($error." Data " . $date. " superior à atual: " . date('d-m-Y') .".", $db);
+        }
+
+
         $db->query("start transaction;");
 
-        //add fornecedor primario
-        $sql = "SELECT nif FROM Supermercado.fornecedor WHERE nif = '$forn_primario';"; //verify if fornecedor exists
-
-        echo("<p>$sql</p>");
-        $db->query($sql);
-
-
-        $sql = "INSERT INTO Supermercado.produto (ean, design,categoria, forn_primario, data) VALUES ( '$ean', '$design', '$categoria', $forn_primario, to_date('$data', 'DD MM YYYY'));";
-        echo("<p>$sql</p>");
+        if(empty($categoria)){
+            $sql = "INSERT INTO Supermercado.produto (ean, design, forn_primario, data) VALUES ( '$ean', '$design', $forn_primario, to_date('$data', 'DD MM YYYY'));";
+        }else{
+            $sql = "INSERT INTO Supermercado.produto (ean, design,categoria, forn_primario, data) VALUES ( '$ean', '$design', '$categoria', $forn_primario, to_date('$data', 'DD MM YYYY'));";
+        }
         $db->query($sql);
 
 
 
         //fornecedores secundarios
         foreach($secundarios as $forn){
-            $forn = trim($forn); //trims so no white spaces at end or end
-            $sql = "SELECT nif FROM Supermercado.fornecedor WHERE nif = '$forn';"; //verify if fornecedor exists
-            echo("<p>$sql</p>");
-            $db->query($sql);
+            $forn = trim($forn); //trims so no white spaces at start or end
+
+            $sql = "SELECT nif FROM Supermercado.fornecedor WHERE nif = '$forn' LIMIT 1;"; //verify if fornecedor exists
+            $test = $db->query($sql);
+            if ($test->rowCount() == 0){
+                exitError($error." Fornecedor " . $ean . "não existe.", $db); //verify if fornecedor exists
+            }
             $sql = "INSERT INTO Supermercado.fornece_sec (nif, ean) VALUES ( '$forn', '$ean');";
-            echo("<p>$sql</p>");
             $db->query($sql);
         }
 
 
         $db->query("commit;");
-
         $db = null;
-        echo("Produto $ean adicionado com Sucesso");
+        $successMsg = "Produto '" . $ean . "' adicionada com sucesso.";
+        header("Location:../output.php?successMsg=$successMsg");
     }
+
+
+
     catch (PDOException $e)
     {
-        $db->query("rollback;");
-        echo("<p>ERROR: {$e->getMessage()}</p>");
+        $sqlError = $e->getMessage();
+        $sqlCode = $e->getCode();
+
+        switch ($sqlCode) {
+            case "23505":
+                $error = "Produto com ean: " . $ean . " já existe.";
+                break;
+            case "23503":
+                $error = "Categoria: " . $categoria . " não encontrada.";
+                break;
+            case "22P02";
+                $error = "Sintaxe inválida para um dos campos.";
+                break;
+            case "P0001";
+                $error = substr($sqlError, 42);
+                break;
+            default:
+                $error = "Erro desconhecido, verifique se os valores que introduziu estão correctos. Se o problema persistir contacte o administrador.";
+        }
+
+        exitError($error, $db);
     }

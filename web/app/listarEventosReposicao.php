@@ -13,7 +13,7 @@ try{
     $sql = "SELECT * FROM Supermercado.evento_reposicao";
     $result = $db->query($sql);
 
-    echo("<h1> Eventos de Repoisição</h1>");
+    echo("<h1> Eventos de Reposição</h1>");
 
     echo("<table border = \"1\">\n");
     foreach($result as $row){

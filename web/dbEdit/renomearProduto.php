@@ -1,8 +1,11 @@
 <?php
-    $ean = $_REQUEST['ean'];
-    $newName= $_REQUEST['newName'];
+$ean = $_REQUEST['ean'];
+$newName= $_REQUEST['newName'];
 
-    try
+$details = array();
+
+
+try
     {
         require ("dbAcess.php");
         $db = initConnection();
@@ -10,19 +13,21 @@
 
         $db->query("start transaction;");
 
+        $error = "Produto com ean '" . $ean . "' não encontrado.";
         $sql = "UPDATE Supermercado.produto SET design = '$newName' WHERE ean = '$ean';";
-        echo("<p>$sql</p>");
+        $details = $sql;
         $db->query($sql);
 
         $db->query("commit;");
-
-
         $db = null;
 
-        echo("Produto $ean renomeado para $newName com Sucesso");
+        $successMsg = "Produto '" . $ean . "' renomeado para '" . $newName . "' com sucesso.";
+        header("Location:../output.php?successMsg=$successMsg");
     }
     catch (PDOException $e)
     {
-        $db->query("rollback;");
-        echo("<p>ERROR: {$e->getMessage()}</p>");
+        $sqlError = $e->getMessage();
+        $error = "Erro ao renomear produto: " . $error;
+        exitError($error, $db);
     }
+

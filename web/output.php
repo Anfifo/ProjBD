@@ -3,8 +3,12 @@
 <body>
 <?php
     $ROOT = "./";
-    include("header.php");
     include($ROOT . "header.php");
+
+    $error = $_REQUEST['errorMsg'];
+    echo("<p>$error</p>");
+    $success = $_REQUEST['successMsg'];
+    echo("<p>$success</p>");
 
 
 ?>
