@@ -133,14 +133,14 @@ $$ language plpgsql;
  *						      CREATE TABLES 									  *
  **********************************************************************************/
 create table Supermercado.categoria(
-	nome Supermercado.CAT_NOME  not null unique,
+	nome Supermercado.CAT_NOME,
 	constraint pk_categoria primary key (nome)
 );
 
 
 
 create table Supermercado.fornecedor(
-	nif Supermercado.NIF  not null unique,
+	nif Supermercado.NIF,
 	nome varchar(100)  not null,
 	constraint pk_fornecedor primary key (nif)
 );
@@ -148,7 +148,7 @@ create table Supermercado.fornecedor(
 
 
 create table Supermercado.produto(
-	ean Supermercado.EAN  not null unique,
+	ean Supermercado.EAN,
 	design varchar(200),
 	categoria Supermercado.CAT_NOME,
 	forn_primario Supermercado.NIF  not null,
@@ -162,7 +162,7 @@ for each row execute procedure check_product_values();
 
 
 create table Supermercado.corredor(
-	nro Supermercado.NRO not null unique,
+	nro Supermercado.NRO,
 	largura numeric(3,2) not null,
 	constraint pk_corredor primary key (nro)
 );
@@ -170,9 +170,9 @@ create table Supermercado.corredor(
 
 
 create table Supermercado.prateleira(
-	nro Supermercado.NRO  not null,
-	lado Supermercado.LADO not null,
-	altura Supermercado.ALTURA not null,
+	nro Supermercado.NRO,
+	lado Supermercado.LADO,
+	altura Supermercado.ALTURA,
 	constraint pk_prateleira primary key(nro,lado,altura),
 	constraint fk_nro foreign key (nro) references Supermercado.corredor on delete cascade
 );
@@ -180,10 +180,10 @@ create table Supermercado.prateleira(
 
 
 create table Supermercado.planograma(
-	ean Supermercado.EAN not null ,
-	nro Supermercado.NRO  not null,
-	lado Supermercado.LADO  not null,
-	altura Supermercado.ALTURA  not null,
+	ean Supermercado.EAN,
+	nro Supermercado.NRO,
+	lado Supermercado.LADO,
+	altura Supermercado.ALTURA,
 	faces numeric(3,0)  not null,
 	unidades numeric(3,0)  not null,
 	loc numeric(3,0)  not null,
@@ -194,7 +194,7 @@ create table Supermercado.planograma(
 
 
 create table Supermercado.categoria_simples(
-	nome Supermercado.CAT_NOME not null unique,
+	nome Supermercado.CAT_NOME,
 	constraint pk_categoria_simples primary key (nome),
 	constraint fk_nome foreign key (nome) references Supermercado.categoria on delete cascade
 );
@@ -206,7 +206,7 @@ create trigger trigger_categoria_simples before insert on Supermercado.categoria
 
 
 create table Supermercado.super_categoria(
-	nome Supermercado.CAT_NOME  not null unique,
+	nome Supermercado.CAT_NOME,
 	constraint pk_super_categoria primary key (nome),
 	constraint fk_nome foreign key (nome) references Supermercado.categoria on delete cascade
 );
@@ -217,8 +217,8 @@ create trigger trigger_super_categoria before insert on Supermercado.super_categ
 
 
 create table Supermercado.constituida(
-	super_categoria Supermercado.CAT_NOME  not null,
-	categoria Supermercado.CAT_NOME not null,
+	super_categoria Supermercado.CAT_NOME,
+	categoria Supermercado.CAT_NOME,
 	/*  RI-EA2: super_categoria != categoria_simples */
 	constraint super_diff_sub check (super_categoria != categoria),
 	constraint fk_super_categoria foreign key (super_categoria) references Supermercado.super_categoria(nome) on delete cascade,
@@ -233,8 +233,8 @@ create trigger trigger_constituida before insert on Supermercado.constituida
 
 
 create table Supermercado.fornece_sec(
-	nif Supermercado.NIF  not null,
-	ean Supermercado.EAN  not null,
+	nif Supermercado.NIF,
+	ean Supermercado.EAN,
 	constraint pk_fornece_sec primary key (nif, ean),
 	constraint fk_ean foreign key (ean) references Supermercado.produto on delete cascade,
 	constraint fk_nif foreign key (nif) references Supermercado.fornecedor on delete cascade
@@ -246,8 +246,8 @@ create trigger trigger_fornece_sec before insert on Supermercado.fornece_sec
 
 
 create table Supermercado.evento_reposicao(
-	operador Supermercado.OPERADOR  not null,
-	instante Supermercado.INSTANTE not null,
+	operador Supermercado.OPERADOR,
+	instante Supermercado.INSTANTE,
 	constraint pk_evento_reposicao primary key (operador, instante)
 );
 /* RI-EA3​ : O instante mais recente de reposicao tem de ser sempre anterior ou igual a data atual */
@@ -257,12 +257,12 @@ create trigger trigger_evento_reposicao before insert on Supermercado.evento_rep
 
 
 create table Supermercado.reposicao(
-	ean Supermercado.EAN not null,
-	nro Supermercado.NRO not null,
-	lado Supermercado.LADO not null,
-	altura Supermercado.ALTURA not null,
-	operador Supermercado.OPERADOR not null,
-	instante Supermercado.INSTANTE not null,
+	ean Supermercado.EAN,
+	nro Supermercado.NRO,
+	lado Supermercado.LADO,
+	altura Supermercado.ALTURA,
+	operador Supermercado.OPERADOR,
+	instante Supermercado.INSTANTE,
 	unidades int not null,
 	constraint pk_reposicao primary key (ean, nro, lado, altura, operador, instante),
 	constraint fk_ean_nro_lado_altura foreign key (ean, nro, lado, altura) references Supermercado.planograma on delete cascade,
