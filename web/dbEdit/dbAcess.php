@@ -3,8 +3,8 @@
 function initConnection(){
 
     $host = "db.ist.utl.pt";
-    $user = "ist425998";
-    $password = "04091991";
+    $user = "ist426036";
+    $password = "umnh1938";
     $dbname = $user;
 
     $db = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);

@@ -36,10 +36,6 @@
 
         echo("<h1> Sub Categorias de $categoryName</h1>");
 
-        echo("<table border = \"1\">\n");
-        show_sub_categories($db, $categoryName, $categoryName, true);
-        echo("</table>");
-
         echo("<form action=\"$addSubCategoriaLink\" method=\"post\">\n
             <input type=\"hidden\" name=\"nomeSuperCategoria\" value=\"$categoryName\"/>\n
             <p>Inserir nova sub categoria (ctrl para seleccionar varias):</p><p></p>\n
@@ -47,6 +43,10 @@
             <input type=\"submit\" value=\"Submeter\"/></p>\n
         </form>\n
         ");
+
+        echo("<table border = \"1\">\n");
+        show_sub_categories($db, $categoryName, $categoryName, true);
+        echo("</table>");
 
         $db = null;
     }
