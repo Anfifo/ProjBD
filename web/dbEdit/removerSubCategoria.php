@@ -22,7 +22,7 @@
     catch (PDOException $e)
     {
         $sqlError = $e->getMessage();
-        $error = "Erro ao remover sub categoria:" . $error;
+        $error = "Erro ao remover sub categoria: " . $error;
         exitError($error, $db);
     }
 ?>
