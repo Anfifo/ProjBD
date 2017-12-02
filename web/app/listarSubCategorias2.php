@@ -6,16 +6,17 @@
     $addSubCategoriaLink = $ROOT . "dbEdit/inserirSubCategoria.php";
     include($ROOT."header.php");
     $categoryName = $_REQUEST['nomeCategoria'];
-    function show_sub_categories($db, $cat){
+
+    function show_sub_categories($db, $cat, $categoryName){
         $sql = "SELECT * FROM Supermercado.constituida where super_categoria = '$cat'";
         $result = $db->query($sql);
         foreach ($result as $row) {
             echo("<tr><td>");
             echo($row['categoria']);
             echo("</td><td>");
-            echo("<a href=\"../dbEdit/removerSubCategoria.php?nomeSubCategoria={$row['categoria']}&nomeCategoria={$categoryName}\">remover sub categoria</a>");
+            echo("<a href=\"../dbEdit/removerSubCategoria.php?nomeSubCategoria={$row['categoria']}&nomeCategoria='$categoryName'\">remover sub categoria</a>");
             echo("</td></tr>");
-            show_sub_categories($db, $row['categoria']);
+            show_sub_categories($db, $row['categoria'], $categoryName);
         }
     }
 
@@ -42,8 +43,9 @@
         ");
 
         echo("<table border = \"1\">\n");
-        show_sub_categories($db, $categoryName);
+        show_sub_categories($db, $categoryName, $categoryName);
         echo("</table>");
+
         $db = null;
     }
     catch (PDOException $e)

@@ -1,10 +1,8 @@
 
 <?php
-    $categoryName = $_REQUEST['nomeCategoria'];
+    $categoryName = $_REQUEST['nomeSuperCategoria'];
     $subCategories = $_REQUEST['subCategorias'];
 
-    $details = array();
-    $errors = array();
     try
     {
         require ("dbAcess.php");
@@ -15,13 +13,19 @@
         $successMsg = "Sub categorias de '" . $categoryName . "':";
 
         foreach($subCategories as $cat){
-            $error = "'".$cat ."'";
             $cat = trim($cat); //trims so no white spaces at end or end
-            $sql = "INSERT INTO Supermercado.constituida VALUES ( '$categoryName', '$cat');";
-            $detail[] = $sql;
+
+            if($cat == $categoryName){
+                exitError("Uma super categoria não pode ser constituida por ela própria.", $db);
+            }
+
+            $error = "Erro ao associar categoria " .$cat." à super categoria " .$categoryName." : ";
+            $sql = "INSERT INTO Supermercado.constituida (super_categoria, categoria)VALUES ( '$categoryName', '$cat');";
             $db->query($sql);
-            $successMsg = $successMsg. " '" . $cat . "'";
+            $successMsg = $successMsg. " '" . $cat . "' ";
         }
+
+
         $successMsg = $successMsg."adicionadas com sucesso.";
 
         $db->query("commit;");

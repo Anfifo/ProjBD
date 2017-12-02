@@ -69,7 +69,7 @@ try{
 
     echo("<form action=\"$addSuperCategoriaLink\" method=\"post\">\n
         <input type=\"hidden\" name=\"tipoCategoria\" value=\"super_categoria\"/>\n
-        <p>Inserir nova categoria simples:</p><p></p>\n
+        <p>Inserir nova super categoria:</p><p></p>\n
         <input type=\"text\" name='nomeCategoria' value=\"nome categoria\"/>\n
         <p>Respetivas sub categorias (ctrl para seleccionar varias):</p>\n
         <p><select name='subCategorias[]'  size = \"6\" required multiple />$selectCategorias</select>\n</p>
