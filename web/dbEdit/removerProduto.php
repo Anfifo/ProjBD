@@ -27,3 +27,4 @@
         $error = "Erro ao remover produto: " . $error . "\n" . $sqlError;
         exitError($error, $db);
     }
+?>

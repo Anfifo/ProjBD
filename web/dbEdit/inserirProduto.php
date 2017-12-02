@@ -27,7 +27,7 @@ try
            $sql = "SELECT nome FROM Supermercado.categoria WHERE nome = '$categoria' LIMIT 1;"; //verify if fornecedor exists
            $test = $db->query($sql);
            if ($test->rowCount() == 0){
-               exitError($error." Categoria " . $categoria . "não encontrada.", $db);
+               exitError($error." Categoria '" . $categoria . "' não encontrada.", $db);
            }
        }
 
@@ -105,3 +105,4 @@ try
 
         exitError($error, $db);
     }
+?>

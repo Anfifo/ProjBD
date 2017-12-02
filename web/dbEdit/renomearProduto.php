@@ -30,4 +30,4 @@ try
         $error = "Erro ao renomear produto: " . $error;
         exitError($error, $db);
     }
-
+?>

@@ -8,6 +8,7 @@ try{
     $ROOT = "../";
     $addCategoriaLink = $ROOT . "dbEdit/inserirCategoria.php";
     $rmCategoriaLink = $ROOT . "dbEdit/removerCategoria.php";
+    $addSuperCategoriaLink = $ROOT . "dbEdit/inserirSuperCategoria.php";
     include($ROOT."header.php");
     require($ROOT."dbEdit/dbAcess.php");
     $db = initConnection();
@@ -15,6 +16,8 @@ try{
 
     $sql = "SELECT nome FROM Supermercado.categoria";
     $result = $db->query($sql);
+    $selectCategorias = "";
+
 
     echo("<h1>CATEGORIAS</h1>");
 
@@ -26,6 +29,8 @@ try{
         $linkR = $rmCategoriaLink . "?nomeCategoria={$row['nome']}";
         echo("<a href=\"$linkR\">remover</a>");
         echo("</td></tr>");
+        $cat = $row['nome'];
+        $selectCategorias = $selectCategorias . "<option value= '$cat'>$cat</option>";
     }
     echo("</table>\n");
 
@@ -62,10 +67,12 @@ try{
 
     echo("<h1> SUPER CATEGORIAS</h1>");
 
-    echo("<form action=\"$addCategoriaLink\" method=\"post\">\n
+    echo("<form action=\"$addSuperCategoriaLink\" method=\"post\">\n
         <input type=\"hidden\" name=\"tipoCategoria\" value=\"super_categoria\"/>\n
         <p>Inserir nova categoria simples:</p><p></p>\n
         <input type=\"text\" name='nomeCategoria' value=\"nome categoria\"/>\n
+        <p>Respetivas sub categorias (ctrl para seleccionar varias):</p>\n
+        <p><select name='subCategorias[]'  size = \"6\" required multiple />$selectCategorias</select>\n</p>
         <input type=\"submit\" value=\"Submeter\"/></p>\n
     </form>\n
     ");
@@ -77,7 +84,7 @@ try{
         echo("</td><td>");
         echo("<a href=\"../dbEdit/removerCategoria.php?nomeCategoria={$row['nome']}\">remover</a>");
         echo("</td><td>");
-        echo("<a href=\"listarSubCategorias.php?nomeCategoria={$row['nome']}\">listar sub categorias</a>");
+        echo("<a href=\"listarSubCategorias2.php?nomeCategoria={$row['nome']}\">listar sub categorias</a>");
         echo("</td></tr>");
     }
     echo("</table>\n");
