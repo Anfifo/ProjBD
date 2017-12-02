@@ -20,6 +20,7 @@ try{
     $addProdutoLink = $ROOT . "dbEdit/inserirProduto.php";
     $rmProdutoLink = $ROOT . "dbEdit/removerProduto.php";
     $renomearProdutoLink = $ROOT . "dbEdit/renomearProduto.php";
+    $listarEventosReposicaoLink = "listarEventosReposicao.php";
     include($ROOT."header.php");
     require($ROOT."dbEdit/dbAcess.php");
     $db = initConnection();
@@ -33,6 +34,13 @@ try{
         $selectForn = $selectForn . "<option value= '$fornNif'>$fornNif - $fornNome</option>";
     }
 
+    $selectCategorias = "";
+    $sql = "SELECT nome FROM Supermercado.categoria";
+    $result = $db->query($sql);
+    foreach($result as $row){
+        $cat = $row['nome'];
+        $selectCategorias = $selectCategorias . "<option value= '$cat'>$cat</option>";
+    }
 
     $sql = "SELECT * FROM Supermercado.produto";
     $result = $db->query($sql);
@@ -44,7 +52,8 @@ try{
         <p><h3>Inserir novo Produto:</h3></p><p></p>\n
         <p>Ean: <input type=\"text\" name='ean' value=\"1234567890123\"/ required>\n</p>
         <p>Designação: <input type=\"text\" name='design'/>\n</p>
-        <p>Categoria:<input type=\"text\" name='categoria'/>\n</p>
+        <p>Categoria:\n</p>
+        <p><select name='categoria' required />$selectCategorias</select>\n</p>
         <p>Fornecedor primário:</p><p><select name='forn_primario' required/>$selectForn</select>\n</p>
         <p>Fornecedores secundários(ctrl para seleccionar vários):\n</p>
         <p><select name='forn_secundario[]'  size = \"6\" required multiple />$selectForn</select>\n</p>
@@ -72,6 +81,9 @@ try{
         $nameToRename = $row['design'];
         $linkToRename = $renomearProdutoLink . "?ean=".$ean."&newName=";
         echo("<a href=\"#\" onclick=\"requestRename('$linkToRename', '$nameToRename')\">renomear</a>");
+        echo("</td><td>");
+        $linkListReposition = $listarEventosReposicaoLink."?ean=".$ean;
+        echo("<a href=\"$linkListReposition\">listar eventos reposicao</a>");
         echo("</td><td>");
         $linkR = $rmProdutoLink."?ean=".$ean;
         echo("<a href=\"$linkR\">remover</a>");
