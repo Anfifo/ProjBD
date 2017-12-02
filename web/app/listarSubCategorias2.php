@@ -14,7 +14,7 @@
             echo("<tr><td>");
             echo($row['categoria']);
             echo("</td><td>");
-            echo("<a href=\"../dbEdit/removerSubCategoria.php?nomeSubCategoria={$row['categoria']}&nomeCategoria='$categoryName'\">remover sub categoria</a>");
+            echo("<a href=\"../dbEdit/removerSubCategoria.php?nomeSubCategoria={$row['categoria']}&nomeSuperCategoria=$categoryName\">remover sub categoria</a>");
             echo("</td></tr>");
             show_sub_categories($db, $row['categoria'], $categoryName);
         }

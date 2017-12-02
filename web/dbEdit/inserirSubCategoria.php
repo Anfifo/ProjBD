@@ -20,7 +20,7 @@
                 exitError("Uma super categoria não pode ser constituida por ela própria.", $db);
             }
 
-            $error = "Categoria '" . $cat. "'' já é subcategoria directa ou indirectamente de '".$categoryName ."''.";
+            $error = "Categoria '" . $cat. "'' já é subcategoria ou supercategoria directa ou indirectamente de '".$categoryName ."''.";
             $sql = "INSERT INTO Supermercado.constituida (super_categoria, categoria)VALUES ( '$categoryName', '$cat');";
             $db->query($sql);
             $successMsg = $successMsg. " '" . $cat . "' ";

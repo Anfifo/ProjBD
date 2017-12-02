@@ -4,8 +4,6 @@
     $category = $_REQUEST['tipoCategoria'];
     $subCategories = $_REQUEST['subCategorias'];
 
-    $details = array();
-    $errors = array();
     try
     {
         require ("dbAcess.php");
@@ -15,17 +13,18 @@
 
         $error = "Categoria '". $categoryName ."' já existe.";
         $sql = "INSERT INTO Supermercado.categoria VALUES ('$categoryName');";
-        $detail[] = $sql;
         $db->query($sql);
 
         $error = "Categoria '".$categoryName ."' já existe.";
         $sql = "INSERT INTO Supermercado.$category VALUES ('$categoryName');";
-        $detail[] = $sql;
         $db->query($sql);
 
         $successMsg = "Categoria '" . $categoryName . "' adicionada com sucesso, com as sub categorias:";
+
         foreach($subCategories as $cat){
             $cat = trim($cat); //trims so no white spaces at end or end
+
+            $error = "Categoria '" . $cat. "'' já é subcategoria ou supercategoria directa ou indirectamente de '".$categoryName ."''.";
             $sql = "INSERT INTO Supermercado.constituida VALUES ( '$categoryName', '$cat');";
             $db->query($sql);
             $successMsg = $successMsg. " '" . $cat . "'";
