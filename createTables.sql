@@ -59,6 +59,11 @@ begin
 	then
 		raise exception 'Nao e possivel criar ciclos em constituida.';
 	end if;
+	if exists (select * from Supermercado.listar_sub_categorias(new.super_categoria) 
+				where sub_categoria = new.categoria)
+	then
+		raise exception 'A categoria ja e indiretamente sub categoria desta super categoria.';
+	end if;
 	return new;
 end
 $$ language plpgsql;
