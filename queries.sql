@@ -1,5 +1,6 @@
 ﻿
--- 1
+-- A
+/*Qual o nome do fornecedor que forneceu o maior numero de categoria?*/
 WITH secundarios AS (
 	SELECT nif, categoria
 	FROM Supermercado.fornece_sec NATURAL JOIN Supermercado.produto
@@ -27,7 +28,7 @@ HAVING COUNT(DISTINCT categoria) >= ALL (
 
 
 
---2
+-- B
 /*Quais os fornecedores primarios (nome e nif) que forneceram produtos de todas
   as categorias simples?*/
 SELECT *
@@ -47,7 +48,7 @@ FROM Supermercado.fornecedor NATURAL JOIN
 ) AS fornecedor_categoria_simples;
 
 
---3
+-- C
 /*Quais os produtos (ean)  que nunca foram repostos?*/
 SELECT ean
 	FROM Supermercado.produto
@@ -55,13 +56,15 @@ EXCEPT
 SELECT ean
 	FROM Supermercado.reposicao
 
---4
-SELECT ean, COUNT(nif)
+-- D
+/*Quais os produtos (ean) com um numero de fornecedores secundarios superior a 10?*/
+SELECT ean
 FROM Supermercado.fornece_sec
 GROUP BY ean
 HAVING COUNT(nif) > 10;
 
---5
+-- E
+/*Quais os produtos (ean) que foram repostos sempre pelo mesmo operador?*/
 SELECT ean
 FROM Supermercado.reposicao
 GROUP BY ean

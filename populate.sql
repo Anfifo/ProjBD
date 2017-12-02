@@ -54,7 +54,9 @@ insert into Supermercado.fornecedor values
 	(294736135, 'Gasin'),
 	(853983518, 'Sogenave'),
 	(878613881, 'Gelpinhos'),
+	(878613900, 'EuroIngredientes'),
 	(607512605, 'Machorro e Filhos');
+
 insert into Supermercado.produto values
 	(9806327911116, 'bananas', 'fruta', 368661129, to_date('05 Dec 2000', 'DD Mon YYYY')),
 	(3651188857489, 'laranjas', 'fruta', 352826670, to_date('05 Jan 2000', 'DD Mon YYYY')),
@@ -104,6 +106,16 @@ insert into Supermercado.fornece_sec values
 	(853983518, 3406026523472),
 	(853983518, 8040403710884),
 	(853983518, 7465250659198),
+	(878613900, 5471671422710),
+	(623733396, 5471671422710),
+	(294736135, 5471671422710),
+	(607512605, 5471671422710),
+	(526412549, 5471671422710),
+	(878613881, 5471671422710),
+	(477072004, 5471671422710),
+	(304155810, 5471671422710),
+	(984879695, 5471671422710),
+	(352826670, 5471671422710),
 	(853983518, 5471671422710),
 	(853983518, 9236111829403);
 
@@ -189,4 +201,5 @@ insert into Supermercado.reposicao values
 	(7288326239603, 3, 'esq', 'medio', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
 	(8040403710884, 5, 'esq', 'superior', 'Genoveva', to_timestamp('2007-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
 	(7465250659198, 6, 'dir', 'superior', 'Genoveva', to_timestamp('2008-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
-	(5471671422710, 7, 'esq', 'superior', 'Genoveva', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3);
+	(5471671422710, 7, 'esq', 'superior', 'Genoveva', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
+	(5471671422710, 7, 'esq', 'superior', 'Maria', to_timestamp('2011-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3);
