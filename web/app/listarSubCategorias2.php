@@ -38,7 +38,7 @@
 
         echo("<form action=\"$addSubCategoriaLink\" method=\"post\">\n
             <input type=\"hidden\" name=\"nomeSuperCategoria\" value=\"$categoryName\"/>\n
-            <p>Inserir nova sub categoria (ctrl para seleccionar varias):</p><p></p>\n
+            <p>Inserir nova sub categoria (ctrl para seleccionar várias):</p><p></p>\n
             <p><select name='subCategorias[]'  size = \"6\" required multiple />$selectCategorias</select>\n</p>
             <input type=\"submit\" value=\"Submeter\"/></p>\n
         </form>\n
