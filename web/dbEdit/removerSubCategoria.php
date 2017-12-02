@@ -10,6 +10,7 @@
 
         $error = "Categoria '" . $categoryName . "' não encontrada.";
         $sql = "DELETE FROM Supermercado.constituida WHERE super_categoria='$categoryName' and categoria = '$subCategoryName';";
+        echo($sql);
         $db->query($sql);
 
         $db->query("commit;");
