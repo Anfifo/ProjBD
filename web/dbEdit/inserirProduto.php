@@ -31,7 +31,7 @@ try
            }
        }
 
-       //verify ean is a positive number
+       //verify ean is a positive number and exactly 13 digits
         if( (int)$ean < 0 || strlen($ean) != 13){
            $testerino = "nope";
            exitError($error . " O ean " . $ean. " tem de ser um número inteiro com 13 digitos.", $db);
@@ -60,8 +60,14 @@ try
             $sql = "SELECT nif FROM Supermercado.fornecedor WHERE nif = '$forn' LIMIT 1;"; //verify if fornecedor exists
             $test = $db->query($sql);
             if ($test->rowCount() == 0){
-                exitError($error." Fornecedor " . $ean . "não existe.", $db); //verify if fornecedor exists
+                exitError($error." Fornecedor " . $forn . "não existe.", $db); //verify if fornecedor exists
             }
+
+            //fornecedor primario = secundario?
+            if($forn == $forn_primario){
+                exitError($error." Fornecedor " .$forn ." não pode ser primario e secundario do mesmo produto.", $db);
+            }
+
             $sql = "INSERT INTO Supermercado.fornece_sec (nif, ean) VALUES ( '$forn', '$ean');";
             $db->query($sql);
         }
