@@ -23,7 +23,6 @@
     }
     catch (PDOException $e)
     {
-        $db->query("rollback;");
         $sqlError = $e->getMessage();
         $error = "Erro ao remover produto: " . $error . "\n" . $sqlError;
         exitError($error, $db);

@@ -11,12 +11,12 @@
 
         $db->query("start transaction;");
 
-        $error = "Categoria '". $categoryName ."' é inválido ou já existe.";
+        $error = "Categoria '". $categoryName ."' já existe.";
         $sql = "INSERT INTO Supermercado.categoria VALUES ('$categoryName');";
         $detail[] = $sql;
         $db->query($sql);
 
-        $error = "Categoria '".$categoryName ."' é inválido ou já existe.";
+        $error = "Categoria '".$categoryName ."' já existe.";
         $sql = "INSERT INTO Supermercado.$category VALUES ('$categoryName');";
         $detail[] = $sql;
         $db->query($sql);
@@ -29,7 +29,6 @@
     }
     catch (PDOException $e)
     {
-        $db->query("rollback;");
         $sqlError = $e->getMessage();
         $error = "Erro ao adicionar categoria: " . $error;
         exitError($error, $db);

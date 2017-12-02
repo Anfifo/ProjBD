@@ -22,7 +22,6 @@
     }
     catch (PDOException $e)
     {
-        $db->query("rollback;");
         $sqlError = $e->getMessage();
         $error = "Erro ao remover categoria: " . $error;
         exitError($error, $db);
