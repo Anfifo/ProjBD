@@ -1,5 +1,5 @@
 <?php
-    $categoryName = $_REQUEST['nomeSuperCategoria'];
+    $categoryName = $_REQUEST['nomeCategoria'];
     $subCategoryName = $_REQUEST['nomeSubCategoria'];
     try
     {
