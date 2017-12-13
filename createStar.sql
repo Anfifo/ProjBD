@@ -25,15 +25,13 @@ CREATE TABLE Supermercado.d_tempo(
 );
 
 CREATE TABLE Supermercado.f_reposicao(
-  produto_id Supermercado.CEAN,
-  ano_id Supermercado.YEAR,
-  mes_id Supermercado.MONTH,
-  dia_id Supermercado.DAY,
+  cean Supermercado.CEAN,
+  ano Supermercado.YEAR,
+  mes Supermercado.MONTH,
+  dia Supermercado.DAY,
   unidades Supermercado.UNITS,
 
-  CONSTRAINT pk_f_reposicao PRIMARY KEY (produto_id, ano_id, mes_id, dia_id),
-  CONSTRAINT fk_produto FOREIGN KEY (produto_id) REFERENCES Supermercado.d_produto(cean) ON DELETE CASCADE,
-  CONSTRAINT fk_ano FOREIGN KEY (ano_id, mes_id, dia_id) REFERENCES Supermercado.d_tempo(ano, mes, dia) ON DELETE CASCADE
+  CONSTRAINT pk_f_reposicao PRIMARY KEY (cean, ano, mes, dia),
+  CONSTRAINT fk_produto FOREIGN KEY (cean) REFERENCES Supermercado.d_produto(cean) ON DELETE CASCADE,
+  CONSTRAINT fk_ano FOREIGN KEY (ano, mes, dia) REFERENCES Supermercado.d_tempo(ano, mes, dia) ON DELETE CASCADE
 );
-
-

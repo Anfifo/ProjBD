@@ -10,7 +10,7 @@ SELECT DISTINCT EXTRACT(DAY FROM instante),
   EXTRACT(YEAR FROM instante)
 FROM Supermercado.reposicao;
 
-INSERT INTO Supermercado.f_reposicao( produto_id, ano_id, mes_id, dia_id, unidades)
+INSERT INTO Supermercado.f_reposicao( cean, ano, mes, dia, unidades)
 SELECT ean,
   EXTRACT(YEAR FROM instante),
   EXTRACT(MONTH FROM instante),
