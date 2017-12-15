@@ -42,7 +42,7 @@ insert into Supermercado.constituida values
 	('peixe', 'peixe de mar');
 
 insert into Supermercado.fornecedor values
-	(368661129, 'Desfruta'),
+	(123455678, 'Desfruta'),
 	(352826670, 'MR Frutas'),
 	(984879695, 'Padariagate'),
 	(526412549, 'Lusobatata'),
@@ -58,29 +58,29 @@ insert into Supermercado.fornecedor values
 	(607512605, 'Machorro e Filhos');
 
 insert into Supermercado.produto values
-	(9806327911116, 'bananas', 'fruta', 368661129, to_date('05 Dec 2000', 'DD Mon YYYY')),
+	(9806327911116, 'bananas', 'fruta', 123455678, to_date('05 Dec 2000', 'DD Mon YYYY')),
 	(3651188857489, 'laranjas', 'fruta', 352826670, to_date('05 Jan 2000', 'DD Mon YYYY')),
 	(8871847294232, 'tangerina', 'fruta', 352826670, to_date('05 Mar 2000', 'DD Mon YYYY')),
 	(5766270093745, 'macas', 'fruta', 984879695, to_date('05 Apr 2000', 'DD Mon YYYY')),
-	(7080453136449, 'ananas', 'fruta', 368661129, to_date('05 Nov 2000', 'DD Mon YYYY')),
-	(2759746969561, 'roma', 'fruta', 368661129, to_date('05 Jun 2000', 'DD Mon YYYY')),
+	(7080453136449, 'ananas', 'fruta', 123455678, to_date('05 Nov 2000', 'DD Mon YYYY')),
+	(2759746969561, 'roma', 'fruta', 123455678, to_date('05 Jun 2000', 'DD Mon YYYY')),
 	(7590445683570, 'pera', 'fruta', 984879695, to_date('05 Jul 2000', 'DD Mon YYYY')),
 	(8245771909701, 'cenoras', 'tuberculos', 526412549, to_date('10 Dec 2000', 'DD Mon YYYY')),
-	(2688979678410, 'alfaces', 'verdura', 368661129, to_date('05 Jan 2005', 'DD Mon YYYY')),
+	(2688979678410, 'alfaces', 'verdura', 123455678, to_date('05 Jan 2005', 'DD Mon YYYY')),
 	(3728153207168, 'batata', 'tuberculos', 526412549, to_date('10 Dec 2003', 'DD Mon YYYY')),
-	(8516636134142, 'feijao', 'leguminosas', 368661129, to_date('15 Dec 2000', 'DD Mon YYYY')),
+	(8516636134142, 'feijao', 'leguminosas', 123455678, to_date('15 Dec 2000', 'DD Mon YYYY')),
 	(8687798373110, 'grao', 'leguminosas', 477072004, to_date('20 Dec 2004', 'DD Mon YYYY')),
 	(6382066059161, 'agriao', 'verdura', 304155810, to_date('12 Mar 2000', 'DD Mon YYYY')),
 	(2868529847211, 'couve', 'verdura', 304155810, to_date('7 Dec 2010', 'DD Mon YYYY')),
-	(6770541259004, 'pescada', 'peixe de rio', 368661129, to_date('06 Jun 2000', 'DD Mon YYYY')),
-	(7690239934178, 'dourada', 'peixe de mar', 368661129, to_date('05 Feb 2000', 'DD Mon YYYY')),
+	(6770541259004, 'pescada', 'peixe de rio', 123455678, to_date('06 Jun 2000', 'DD Mon YYYY')),
+	(7690239934178, 'dourada', 'peixe de mar', 123455678, to_date('05 Feb 2000', 'DD Mon YYYY')),
 	(5170074158474, 'atum', 'peixe de mar', 994226524, to_date('05 Jul 2009', 'DD Mon YYYY')),
 	(2812995729112, 'salmao', 'peixe de rio', 623733396, to_date('03 Nov 2000', 'DD Mon YYYY')),
 	(7288326239603, 'bacalhau', 'peixe de mar', 994226524, to_date('21 Dec 2000', 'DD Mon YYYY')),
-	(3406026523472, 'almondegas', 'carnes vermelhas', 368661129, to_date('09 Dec 2000', 'DD Mon YYYY')),
+	(3406026523472, 'almondegas', 'carnes vermelhas', 123455678, to_date('09 Dec 2000', 'DD Mon YYYY')),
 	(8040403710884, 'costeletas de porco', 'carnes vermelhas', 453251781, to_date('05 Jan 2003', 'DD Mon YYYY')),
 	(7465250659198, 'bifes de peru', 'carnes de aves', 294736135, to_date('05 Dec 2012', 'DD Mon YYYY')),
-	(5471671422710, 'frango', 'carnes de aves', 368661129, to_date('05 Dec 2007', 'DD Mon YYYY')),
+	(5471671422710, 'frango', 'carnes de aves', 123455678, to_date('05 Dec 2007', 'DD Mon YYYY')),
 	(9236111829403, 'hamburguer de vaca', 'carnes vermelhas', 453251781, to_date('16 Dec 2000', 'DD Mon YYYY'));
 
 insert into Supermercado.fornece_sec values
@@ -184,7 +184,7 @@ insert into Supermercado.evento_reposicao values
 	('Genoveva', to_timestamp('2007-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS')),
 	('Genoveva', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'));
 
-		
+
 insert into Supermercado.reposicao values
 	(9806327911116, 1, 'esq', 'chao', 'José', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
 	(8871847294232, 2, 'esq', 'chao', 'Maria', to_timestamp('2012-10-09 1:10:21 CST','YYYY-MM-DD HH24:MI:SS'), 3),
