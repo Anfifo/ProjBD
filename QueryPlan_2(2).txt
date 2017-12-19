@@ -1,0 +1,155 @@
+                                                QUERY PLAN   (sem indices)                                              
+-----------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=20001326777.51..20001553523.63 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Merge Join  (cost=20001326777.51..20001477273.08 rows=10000033 width=11)
+         Merge Cond: ((p.ean)::numeric = (f.ean)::numeric)
+         ->  Sort  (cost=10000010043.23..10000010293.29 rows=100024 width=6)
+               Sort Key: p.ean
+               ->  Seq Scan on produto p  (cost=10000000000.00..10000001736.24 rows=100024 width=6)
+         ->  Sort  (cost=10001316734.24..10001341734.32 rows=10000033 width=11)
+               Sort Key: f.ean
+               ->  Seq Scan on fornece_sec f  (cost=10000000000.00..10000154055.33 rows=10000033 width=11)
+
+
+                                                QUERY PLAN    (b+ tree fornece_sec(nif,ean))                                             
+-----------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=10001672918.25..10001899664.36 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Merge Join  (cost=10001672918.25..10001823413.81 rows=10000033 width=11)
+         Merge Cond: ((p.ean)::numeric = (f.ean)::numeric)
+         ->  Sort  (cost=10000010043.23..10000010293.29 rows=100024 width=6)
+               Sort Key: p.ean
+               ->  Seq Scan on produto p  (cost=10000000000.00..10000001736.24 rows=100024 width=6)
+         ->  Sort  (cost=1662874.97..1687875.05 rows=10000033 width=11)
+               Sort Key: f.ean
+               ->  Bitmap Heap Scan on fornece_sec f  (cost=346140.73..500196.06 rows=10000033 width=11)
+                     ->  Bitmap Index Scan on pk_fornece_sec  (cost=0.00..343640.72 rows=10000033 width=0)
+(12 rows)
+
+
+                                                QUERY PLAN   (b+ tree fornece_sec(nif))                                              
+-----------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=20001326777.51..20001553523.63 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Merge Join  (cost=20001326777.51..20001477273.08 rows=10000033 width=11)
+         Merge Cond: ((p.ean)::numeric = (f.ean)::numeric)
+         ->  Sort  (cost=10000010043.23..10000010293.29 rows=100024 width=6)
+               Sort Key: p.ean
+               ->  Seq Scan on produto p  (cost=10000000000.00..10000001736.24 rows=100024 width=6)
+         ->  Sort  (cost=10001316734.24..10001341734.32 rows=10000033 width=11)
+               Sort Key: f.ean
+               ->  Seq Scan on fornece_sec f  (cost=10000000000.00..10000154055.33 rows=10000033 width=11)
+(11 rows)
+
+=============================================================================================================================================================
+                                              QUERY PLAN  (b+ tree fornece_sec(ean))                                            
+------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=10000010043.71..10000525536.24 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Merge Join  (cost=10000010043.71..10000449285.69 rows=10000033 width=11)
+         Merge Cond: ((p.ean)::numeric = (f.ean)::numeric)
+         ->  Sort  (cost=10000010043.23..10000010293.29 rows=100024 width=6)
+               Sort Key: p.ean
+               ->  Seq Scan on produto p  (cost=10000000000.00..10000001736.24 rows=100024 width=6)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.43..313746.93 rows=10000033 width=11)
+(9 rows)
+
+=============================================================================================================================================================
+
+                                          QUERY PLAN  (hash fornece_sec(ean)                                        
+----------------------------------------------------------------------------------------------
+ HashAggregate  (cost=10000945291.29..10000946541.59 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Nested Loop  (cost=10000000000.00..10000870291.04 rows=10000033 width=11)
+         ->  Seq Scan on produto p  (cost=10000000000.00..10000001736.24 rows=100024 width=6)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.00..7.03 rows=165 width=11)
+               Index Cond: ((ean)::numeric = (p.ean)::numeric)
+(7 rows)
+
+=============================================================================================================================================================
+                                             QUERY PLAN   (hash fornece_sec(ean) ,b+ tree produto(ean))                                        
+-----------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.29..948158.69 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Nested Loop  (cost=0.29..871908.14 rows=10000033 width=11)
+         ->  Index Only Scan using pk_produto on produto p  (cost=0.29..3353.34 rows=100024 width=6)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.00..7.03 rows=165 width=11)
+               Index Cond: ((ean)::numeric = (p.ean)::numeric)
+(7 rows)
+
+
+						ANALYSE
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.29..948158.69 rows=100024 width=11) (actual time=0.378..8399.126 rows=100001 loops=1)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   Rows Removed by Filter: 22
+   ->  Nested Loop  (cost=0.29..871908.14 rows=10000033 width=11) (actual time=0.075..6384.028 rows=10000033 loops=1)
+         ->  Index Only Scan using pk_produto on produto p  (cost=0.29..3353.34 rows=100024 width=6) (actual time=0.046..35.905 rows=100024 loops=1)
+               Heap Fetches: 100024
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.00..7.03 rows=165 width=11) (actual time=0.004..0.041 rows=100 loops=100024)
+               Index Cond: ((ean)::numeric = (p.ean)::numeric)
+               Rows Removed by Index Recheck: 0
+ Planning time: 0.406 ms
+ Execution time: 8410.604 ms
+(12 rows)
+
+
+=============================================================================================================================================================
+                                              QUERY PLAN   (b+ tree fornece_sec(ean), hash produto(ean))                                         
+------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.43..694998.47 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Nested Loop  (cost=0.43..618747.92 rows=10000033 width=11)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.43..313746.93 rows=10000033 width=11)
+         ->  Index Scan using pk_produto on produto p  (cost=0.00..0.02 rows=1 width=6)
+               Index Cond: ((ean)::numeric = (f.ean)::numeric)
+(7 rows)
+
+					ANALYSE
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.43..694998.47 rows=100024 width=11) (actual time=0.656..21976.200 rows=100001 loops=1)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   Rows Removed by Filter: 22
+   ->  Nested Loop  (cost=0.43..618747.92 rows=10000033 width=11) (actual time=0.035..19840.201 rows=10000033 loops=1)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.43..313746.93 rows=10000033 width=11) (actual time=0.012..2122.235 rows=10000033 loops=1)
+         ->  Index Scan using pk_produto on produto p  (cost=0.00..0.02 rows=1 width=6) (actual time=0.001..0.001 rows=1 loops=10000033)
+               Index Cond: ((ean)::numeric = (f.ean)::numeric)
+               Rows Removed by Index Recheck: 0
+ Planning time: 0.406 ms
+ Execution time: 21988.132 ms
+(11 rows)
+
+
+
+=============================================================================================================================================================
+                                             QUERY PLAN  (hash produto(ean), fornece_sec(ean))                                            
+-----------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=10000534056.57..10000535306.87 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Nested Loop  (cost=10000000000.00..10000459056.32 rows=10000033 width=11)
+         ->  Seq Scan on fornece_sec f  (cost=10000000000.00..10000154055.33 rows=10000033 width=11)
+         ->  Index Scan using pk_produto on produto p  (cost=0.00..0.02 rows=1 width=6)
+               Index Cond: ((ean)::numeric = (f.ean)::numeric)
+(7 rows)
+=============================================================================================================================================================
+                                              QUERY PLAN   (b+ tree produto(ean), fornece_sec(ean))                                           
+------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=1.12..518565.27 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Merge Join  (cost=1.12..442314.72 rows=10000033 width=11)
+         Merge Cond: ((p.ean)::numeric = (f.ean)::numeric)
+         ->  Index Only Scan using pk_produto on produto p  (cost=0.29..3353.34 rows=100024 width=6)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.43..313746.93 rows=10000033 width=11)
+(7 rows)

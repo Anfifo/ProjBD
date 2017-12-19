@@ -103,8 +103,7 @@ begin
 	if exists (select * from Supermercado.fornece_sec
 				where nif = new.forn_primario and ean = new.ean)
 	then
-		delete from Supermercado.fornece_sec where ean = new.ean and nif = new.forn_primario;
-		raise notice 'O fornecedor % passou de fornecedor secundario do produto % para fornecedor primario do mesmo.', new.forn_primario, new.ean;
+		raise exception 'O fornecedor primario de um produto nao pode ser fornecedor secundario do mesmo produto.';
 	end if;
 	return new;
 end
@@ -168,7 +167,7 @@ create table Supermercado.produto(
 	constraint fk_forn_primario foreign key (forn_primario) references Supermercado.fornecedor(nif) on delete cascade on update cascade
 );
 /* RI-EA4: O fornecedor (primario) de um produto nao pode existir na relacao fornece_sec para o mesmo produto */
-create trigger trigger_fornece_prim after update on Supermercado.produto
+create trigger trigger_fornece_prim before update on Supermercado.produto
 	for each row execute procedure Supermercado.fornecedor_disjoint2();
 
 create table Supermercado.corredor(

@@ -1,0 +1,51 @@
+
+************************************** NADA *******************************************
+
+                                   QUERY PLAN                                    
+---------------------------------------------------------------------------------
+ HashAggregate  (cost=1994.95..1995.93 rows=98 width=19)
+   Group Key: f.nif, f.nome
+   ->  Hash Join  (cost=6.82..1994.46 rows=98 width=19)
+         Hash Cond: ((p.forn_primario)::numeric = (f.nif)::numeric)
+         ->  Seq Scan on produto p  (cost=0.00..1986.30 rows=98 width=4)
+               Filter: ((categoria)::text = 'fruta'::text)
+         ->  Hash  (cost=4.14..4.14 rows=214 width=19)
+               ->  Seq Scan on fornecedor f  (cost=0.00..4.14 rows=214 width=19)
+(8 rows)
+
+
+
+******************************** B+ TREES ********************************************
+
+                                      QUERY PLAN                                        
+-----------------------------------------------------------------------------------------
+ HashAggregate  (cost=285.35..286.33 rows=98 width=19)
+   Group Key: f.nif, f.nome
+   ->  Hash Join  (cost=11.87..284.86 rows=98 width=19)
+         Hash Cond: ((p.forn_primario)::numeric = (f.nif)::numeric)
+         ->  Bitmap Heap Scan on produto p  (cost=5.05..276.70 rows=98 width=4)
+               Recheck Cond: ((categoria)::text = 'fruta'::text)
+               ->  Bitmap Index Scan on categoria_idx  (cost=0.00..5.03 rows=98 width=0)
+                     Index Cond: ((categoria)::text = 'fruta'::text)
+         ->  Hash  (cost=4.14..4.14 rows=214 width=19)
+               ->  Seq Scan on fornecedor f  (cost=0.00..4.14 rows=214 width=19)
+(10 rows)
+
+
+
+************************************ HASH ********************************************
+
+                                        QUERY PLAN                                        
+-----------------------------------------------------------------------------------------
+ HashAggregate  (cost=285.06..286.04 rows=98 width=19)
+   Group Key: f.nif, f.nome
+   ->  Hash Join  (cost=11.57..284.57 rows=98 width=19)
+         Hash Cond: ((p.forn_primario)::numeric = (f.nif)::numeric)
+         ->  Bitmap Heap Scan on produto p  (cost=4.76..276.40 rows=98 width=4)
+               Recheck Cond: ((categoria)::text = 'fruta'::text)
+               ->  Bitmap Index Scan on categoria_idx  (cost=0.00..4.74 rows=98 width=0)
+                     Index Cond: ((categoria)::text = 'fruta'::text)
+         ->  Hash  (cost=4.14..4.14 rows=214 width=19)
+               ->  Seq Scan on fornecedor f  (cost=0.00..4.14 rows=214 width=19)
+(10 rows)
+

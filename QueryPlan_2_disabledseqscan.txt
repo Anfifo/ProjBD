@@ -1,0 +1,32 @@
+
+******************************************** B+ TREES ************************************************
+
+                                             QUERY PLAN                                              
+------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=9.84..516302.09 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Merge Join  (cost=9.84..440051.54 rows=10000033 width=11)
+         Merge Cond: ((p.ean)::numeric = (f.ean)::numeric)
+         ->  Index Only Scan using pk_produto on produto p  (cost=0.29..3353.34 rows=100024 width=6)
+         ->  Index Scan using ean_idx on fornece_sec f  (cost=0.43..313746.93 rows=10000033 width=11)
+(7 rows)
+
+
+******************************************** HASH ****************************************************
+
+                                                QUERY PLAN                                                 
+-----------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=779800.61..781050.91 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Hash Join  (cost=350744.37..704800.36 rows=10000033 width=11)
+         Hash Cond: ((f.ean)::numeric = (p.ean)::numeric)
+         ->  Bitmap Heap Scan on fornece_sec f  (cost=346140.73..500196.06 rows=10000033 width=11)
+               ->  Bitmap Index Scan on pk_fornece_sec  (cost=0.00..343640.72 rows=10000033 width=0)
+         ->  Hash  (cost=3353.34..3353.34 rows=100024 width=6)
+               ->  Index Only Scan using pk_produto on produto p  (cost=0.29..3353.34 rows=100024 width=6)
+(9 rows)
+
+
+

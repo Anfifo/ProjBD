@@ -1,0 +1,44 @@
+
+************************************** NADA *******************************************
+
+				      QUERY PLAN                                      
+--------------------------------------------------------------------------------------
+ HashAggregate  (cost=432042.78..433293.08 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Hash Join  (cost=2986.54..357042.53 rows=10000033 width=11)
+         Hash Cond: ((f.ean)::numeric = (p.ean)::numeric)
+         ->  Seq Scan on fornece_sec f  (cost=0.00..154055.33 rows=10000033 width=11)
+         ->  Hash  (cost=1736.24..1736.24 rows=100024 width=6)
+               ->  Seq Scan on produto p  (cost=0.00..1736.24 rows=100024 width=6)
+(8 rows)
+
+
+******************************** B+ TREES ********************************************
+
+                                      QUERY PLAN                                      
+--------------------------------------------------------------------------------------
+ HashAggregate  (cost=432042.78..433293.08 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Hash Join  (cost=2986.54..357042.53 rows=10000033 width=11)
+         Hash Cond: ((f.ean)::numeric = (p.ean)::numeric)
+         ->  Seq Scan on fornece_sec f  (cost=0.00..154055.33 rows=10000033 width=11)
+         ->  Hash  (cost=1736.24..1736.24 rows=100024 width=6)
+               ->  Seq Scan on produto p  (cost=0.00..1736.24 rows=100024 width=6)
+(8 rows)
+
+
+************************************ HASH ********************************************
+
+                                      QUERY PLAN                                      
+--------------------------------------------------------------------------------------
+ HashAggregate  (cost=432042.78..433293.08 rows=100024 width=11)
+   Group Key: p.ean
+   Filter: (count(f.nif) > 1)
+   ->  Hash Join  (cost=2986.54..357042.53 rows=10000033 width=11)
+         Hash Cond: ((f.ean)::numeric = (p.ean)::numeric)
+         ->  Seq Scan on fornece_sec f  (cost=0.00..154055.33 rows=10000033 width=11)
+         ->  Hash  (cost=1736.24..1736.24 rows=100024 width=6)
+               ->  Seq Scan on produto p  (cost=0.00..1736.24 rows=100024 width=6)
+(8 rows)
