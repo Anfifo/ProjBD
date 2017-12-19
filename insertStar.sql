@@ -1,20 +1,19 @@
-﻿with aux as (
-select cean, categoria, ano, mes
-from Supermercado.f_reposicao R, Supermercado.d_produto P
-where nif_fornecedor_primario = 7288326239603
-	and R.cean = P.cean
-)
-select categoria, ano, mes, count(ean)
-from aux
-group by categoria, ano, mes
-union
-select categoria, ano, null, count(cean)
-from aux
-group by categoria,ano
-union 
-select categoria, null, null, count(cean)
-from aux
-group by categoria
-union
-select null, null, null, count(cean)
-from aux;
+﻿
+
+INSERT INTO Supermercado.d_produto (cean, categoria, nif_fornecedor_principal)
+SELECT ean, categoria, forn_primario
+FROM Supermercado.produto;
+
+INSERT INTO Supermercado.d_tempo (dia, mes, ano)
+SELECT DISTINCT EXTRACT(DAY FROM instante),
+  EXTRACT(MONTH FROM instante),
+  EXTRACT(YEAR FROM instante)
+FROM Supermercado.evento_reposicao;
+
+INSERT INTO Supermercado.f_reposicao( cean, ano, mes, dia, unidades)
+SELECT ean,
+  EXTRACT(YEAR FROM instante),
+  EXTRACT(MONTH FROM instante),
+  EXTRACT(DAY FROM instante),
+  unidades
+FROM Supermercado.reposicao;
