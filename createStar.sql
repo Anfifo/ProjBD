@@ -13,7 +13,7 @@ create domain Supermercado.UNITS as int;
 CREATE TABLE Supermercado.d_produto(
 	cean Supermercado.CEAN,
 	categoria Supermercado.CATEGORY,
-	nif_fornecedor_principal Supermercado.NIF  NOT NULL,
+	nif_fornecedor_principal Supermercado.NIFP  NOT NULL,
   CONSTRAINT pk_d_produto PRIMARY KEY (cean)
 );
 
